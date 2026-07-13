@@ -316,7 +316,29 @@
 
   function inicializarApp() {
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('service-worker.js').then(reg => {
+          
+          // Detectar si hay una actualización disponible
+          reg.onupdatefound = () => {
+            const installingWorker = reg.installing;
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Hay una actualización: forzar que tome el control
+                installingWorker.postMessage({ type: 'SKIP_WAITING' });
+              }
+            };
+          };
+        });
+
+        // Cuando el nuevo Service Worker toma el control, recargar la página
+        let refreshing;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (refreshing) return;
+          window.location.reload();
+          refreshing = true;
+        });
+      });
     }
 
     const carrusel = document.getElementById('carrusel');

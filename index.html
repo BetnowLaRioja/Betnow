@@ -291,7 +291,7 @@
   </div>
 
 <script>
-  // ⚠️⚠️ PASO OBLIGATORIO ANTES DE PUBLICAR ⚠️⚠️
+  // ⚠️⚠️ CONFIGURACIÓN ⚠️⚠️
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJqjk_vGUJBS3QeijN8xgw9vWj_nmVWPVh83G1BQz64Amkf8qJED8M0Q6uSynTyIQ/exec";
   const WHATSAPP_NUMERO = "5493825662396";
   const ALIAS_PAGO = "betnow"; 
@@ -315,229 +315,209 @@
   }
 
   function inicializarApp() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
-  }
-
-  const carrusel = document.getElementById('carrusel');
-  const selectTorneo = document.getElementById('torneo');
-  const contPartidos = document.getElementById('partidos');
-  const btnEnviar = document.getElementById('enviar');
-  const loaderPartidos = document.getElementById('loaderPartidos');
-
-  function seleccionarTorneo(nombre) {
-    selectTorneo.value = nombre;
-    selectTorneo.dispatchEvent(new Event('change'));
-    document.querySelector('.form-cont').scrollIntoView({ behavior: 'smooth' });
-  }
-  window.seleccionarTorneo = seleccionarTorneo;
-
-  function animarNumero(elem, finalVal) {
-    let currentVal = 0; const steps = 30; const increment = finalVal / steps;
-    const timer = setInterval(() => {
-      currentVal += increment;
-      if (currentVal >= finalVal) { currentVal = finalVal; clearInterval(timer); }
-      elem.textContent = formatoARS(currentVal);
-    }, 1000 / steps);
-  }
-
-  // FUNCIÓN PARA ARMAR EL CARTEL FLOTANTE
-  function armarCartelesFlotantes(torneos) {
-    // FILTRO: Solo tomamos torneos que tengan algo en la columna 'logo_sponsor'
-    const sponsors = torneos.filter(t => t.logo_sponsor && t.logo_sponsor.trim() !== '');
-    
-    let htmlSponsors = '';
-
-    if (sponsors.length === 0) {
-      // Texto por defecto si no hay sponsors
-      const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ BET NOW PRODE AMATEUR ⚽</span></div>';
-      htmlSponsors = textoDefault.repeat(8);
-    } else {
-      let itemsSponsors = '';
-      sponsors.forEach(sp => {
-        // AQUÍ ARMAMOS EL TEXTO: "SPONSOR OFICIAL DE: [Nombre]"
-        itemsSponsors += `
-          <div class="sponsor-item">
-            <img src="${sp.logo_sponsor}" alt="Sponsor">
-            <span>SPONSOR OFICIAL DE: ${sp.nombre_sponsor}</span>
-          </div>`;
-      });
-      htmlSponsors = itemsSponsors.repeat(4); 
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
     }
 
-    const renderDoble = htmlSponsors + htmlSponsors;
-    document.getElementById('marqueeTop').innerHTML = renderDoble;
-    document.getElementById('marqueeBottom').innerHTML = renderDoble;
-  }
+    const carrusel = document.getElementById('carrusel');
+    const selectTorneo = document.getElementById('torneo');
+    const contPartidos = document.getElementById('partidos');
+    const btnEnviar = document.getElementById('enviar');
+    const loaderPartidos = document.getElementById('loaderPartidos');
 
-    // Doble render para que la animación no se corte al medio
-    const renderDoble = htmlSponsors + htmlSponsors;
-    document.getElementById('marqueeTop').innerHTML = renderDoble;
-    document.getElementById('marqueeBottom').innerHTML = renderDoble;
-  }
+    function seleccionarTorneo(nombre) {
+      selectTorneo.value = nombre;
+      selectTorneo.dispatchEvent(new Event('change'));
+      document.querySelector('.form-cont').scrollIntoView({ behavior: 'smooth' });
+    }
+    window.seleccionarTorneo = seleccionarTorneo;
 
-  // Carga inicial
-  fetch(SCRIPT_URL + '?format=json')
-    .then(r => r.json())
-    .then(data => {
-      const torneos = data.torneos || [];
-      
-      // Armamos los carteles flotantes con los datos que llegaron
-      armarCartelesFlotantes(torneos);
+    function animarNumero(elem, finalVal) {
+      let currentVal = 0; const steps = 30; const increment = finalVal / steps;
+      const timer = setInterval(() => {
+        currentVal += increment;
+        if (currentVal >= finalVal) { currentVal = finalVal; clearInterval(timer); }
+        elem.textContent = formatoARS(currentVal);
+      }, 1000 / steps);
+    }
 
-      selectTorneo.innerHTML = '<option value="">Seleccionar liga...</option>' +
-        torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Inscripción: ${formatoARS(t.costo)})</option>`).join('');
+    // FUNCIÓN PARA ARMAR EL CARTEL FLOTANTE (CORREGIDA)
+    function armarCartelesFlotantes(torneos) {
+      const sponsors = torneos.filter(t => t.logo_sponsor && t.logo_sponsor.trim() !== '');
+      let htmlSponsors = '';
 
-      carrusel.innerHTML = torneos.map(t => {
-        const encabezado = t.logo
-          ? `<img class="logo-torneo-mini" src="${t.logo}">${t.nombre}`
-          : `🏆 ${t.nombre}`;
-        return `<div class="pozo-slide" onclick="seleccionarTorneo('${t.nombre.replace(/'/g, "\\'")}')">
-          <div class="pozo-slide-liga">${encabezado}</div>
-          <div class="pozo-slide-monto" data-val="${t.pozo}">$0</div>
-          <div class="pozo-slide-cta">Acceso: ${formatoARS(t.costo)} | Participar →</div>
-        </div>`;
-      }).join('');
-      document.querySelectorAll('.pozo-slide-monto').forEach(elem => {
-        animarNumero(elem, parseInt(elem.getAttribute('data-val')) || 0);
-      });
-      activarFocoCarrusel();
-
-      const posiciones = data.posiciones || [];
-      const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
-      const posDiv = document.getElementById('posiciones');
-      if (torneosUnicos.length === 0) {
-        posDiv.innerHTML = '<p style="text-align:center; color:var(--gris); padding:10px;">No hay posiciones procesadas todavía.</p>';
+      if (sponsors.length === 0) {
+        const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ BET NOW PRODE AMATEUR ⚽</span></div>';
+        htmlSponsors = textoDefault.repeat(8);
       } else {
-        posDiv.innerHTML = torneosUnicos.map(torneo => {
-          const filas = posiciones.filter(p => p.torneo === torneo)
-            .map(p => `<tr><td>${p.posicion}</td><td style="text-align:left;font-weight:600;">${p.nombre}</td><td>${p.puntos}</td><td style="color:#facc15;">${formatoARS(p.premio)}</td></tr>`)
-            .join('');
-          return `<div class="tabla-torneo-card"><h4>🏆 ${torneo}</h4><table><tr><th>#</th><th style="text-align:left;">Nombre</th><th>Pts</th><th>Premio Est.</th></tr>${filas}</table></div>`;
-        }).join('');
-      }
-    })
-    .catch(() => { carrusel.innerHTML = '<p style="color:#f87171;padding:16px;">No se pudo conectar con el backend.</p>'; });
-
-  selectTorneo.addEventListener('change', function(ev) {
-    const torneo = ev.target.value;
-    
-    // Escondemos los elementos mientras carga
-    contPartidos.innerHTML = ''; 
-    btnEnviar.style.display = 'none';
-    document.getElementById('desempate-cont').style.display = 'none';
-    
-    if (!torneo) {
-      loaderPartidos.style.display = 'none';
-      return;
-    }
-
-    // MOSTRAR LOADER
-    loaderPartidos.style.display = 'block';
-
-    fetch(SCRIPT_URL + '?format=partidos-torneo&torneo=' + encodeURIComponent(torneo))
-      .then(r => r.json())
-      .then(partidos => {
-        // OCULTAR LOADER AL TERMINAR
-        loaderPartidos.style.display = 'none';
-
-        if (partidos.length === 0) {
-          contPartidos.innerHTML = '<p style="text-align:center; color:var(--gris); padding:20px 0;">No hay partidos activos para esta liga.</p>';
-          return;
-        }
-        partidos.forEach(p => {
-          const logoL = p.logoLocal ? '<img src="'+p.logoLocal+'">' : '<div class="sin-logo">⚽</div>';
-          const logoV = p.logoVisitante ? '<img src="'+p.logoVisitante+'">' : '<div class="sin-logo">⚽</div>';
-          const div = document.createElement('div');
-          div.className = 'partido-card';
-          div.dataset.id = p.id; div.dataset.local = p.local; div.dataset.visitante = p.visitante;
-          div.innerHTML =
-            '<div class="equipo">'+logoL+'<span>'+p.local+'</span></div>' +
-            '<div class="marcador"><input type="number" min="0" class="gol-local"><span class="vs">vs</span><input type="number" min="0" class="gol-visitante"></div>' +
-            '<div class="equipo">'+logoV+'<span>'+p.visitante+'</span></div>';
-          contPartidos.appendChild(div);
+        let itemsSponsors = '';
+        sponsors.forEach(sp => {
+          itemsSponsors += `
+            <div class="sponsor-item">
+              <img src="${sp.logo_sponsor}" alt="Sponsor">
+              <span>SPONSOR OFICIAL DE: ${sp.nombre_sponsor}</span>
+            </div>`;
         });
-        document.getElementById('desempate-cont').style.display = 'block';
-        btnEnviar.style.display = 'block';
-      })
-      .catch(() => {
-         // Ocultar loader si hay error también
-         loaderPartidos.style.display = 'none';
-         contPartidos.innerHTML = '<p style="text-align:center; color:#f87171; padding:20px 0;">Error al cargar los partidos. Intentá de nuevo.</p>';
-      });
-  });
+        htmlSponsors = itemsSponsors.repeat(4); 
+      }
 
-  btnEnviar.addEventListener('click', function() {
-    const nombre = document.getElementById('nombre').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const torneo = selectTorneo.value;
-    const desempate = document.getElementById('desempate').value;
-    const estadoDiv = document.getElementById('estado');
-
-    if (!nombre || !email || !torneo) {
-      estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Faltan completar campos obligatorios.';
-      return;
+      const renderDoble = htmlSponsors + htmlSponsors;
+      document.getElementById('marqueeTop').innerHTML = renderDoble;
+      document.getElementById('marqueeBottom').innerHTML = renderDoble;
     }
 
-    const predicciones = []; let faltaAlgun = false;
-    document.querySelectorAll('.partido-card').forEach(card => {
-      const gl = card.querySelector('.gol-local').value;
-      const gv = card.querySelector('.gol-visitante').value;
-      if (gl === '' || gv === '') { faltaAlgun = true; return; }
-      predicciones.push({ id: card.dataset.id, local: card.dataset.local, visitante: card.dataset.visitante, golLocal: gl, golVisitante: gv });
+    // Carga inicial
+    fetch(SCRIPT_URL + '?format=json')
+      .then(r => r.json())
+      .then(data => {
+        const torneos = data.torneos || [];
+        armarCartelesFlotantes(torneos);
+
+        selectTorneo.innerHTML = '<option value="">Seleccionar liga...</option>' +
+          torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Inscripción: ${formatoARS(t.costo)})</option>`).join('');
+
+        carrusel.innerHTML = torneos.map(t => {
+          const encabezado = t.logo
+            ? `<img class="logo-torneo-mini" src="${t.logo}">${t.nombre}`
+            : `🏆 ${t.nombre}`;
+          return `<div class="pozo-slide" onclick="seleccionarTorneo('${t.nombre.replace(/'/g, "\\'")}')">
+            <div class="pozo-slide-liga">${encabezado}</div>
+            <div class="pozo-slide-monto" data-val="${t.pozo}">$0</div>
+            <div class="pozo-slide-cta">Acceso: ${formatoARS(t.costo)} | Participar →</div>
+          </div>`;
+        }).join('');
+        document.querySelectorAll('.pozo-slide-monto').forEach(elem => {
+          animarNumero(elem, parseInt(elem.getAttribute('data-val')) || 0);
+        });
+        activarFocoCarrusel();
+
+        const posiciones = data.posiciones || [];
+        const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
+        const posDiv = document.getElementById('posiciones');
+        if (torneosUnicos.length === 0) {
+          posDiv.innerHTML = '<p style="text-align:center; color:var(--gris); padding:10px;">No hay posiciones procesadas todavía.</p>';
+        } else {
+          posDiv.innerHTML = torneosUnicos.map(torneo => {
+            const filas = posiciones.filter(p => p.torneo === torneo)
+              .map(p => `<tr><td>${p.posicion}</td><td style="text-align:left;font-weight:600;">${p.nombre}</td><td>${p.puntos}</td><td style="color:#facc15;">${formatoARS(p.premio)}</td></tr>`)
+              .join('');
+            return `<div class="tabla-torneo-card"><h4>🏆 ${torneo}</h4><table><tr><th>#</th><th style="text-align:left;">Nombre</th><th>Pts</th><th>Premio Est.</th></tr>${filas}</table></div>`;
+          }).join('');
+        }
+      })
+      .catch(() => { carrusel.innerHTML = '<p style="color:#f87171;padding:16px;">No se pudo conectar con el backend.</p>'; });
+
+    selectTorneo.addEventListener('change', function(ev) {
+      const torneo = ev.target.value;
+      contPartidos.innerHTML = ''; 
+      btnEnviar.style.display = 'none';
+      document.getElementById('desempate-cont').style.display = 'none';
+      
+      if (!torneo) {
+        loaderPartidos.style.display = 'none';
+        return;
+      }
+      loaderPartidos.style.display = 'block';
+
+      fetch(SCRIPT_URL + '?format=partidos-torneo&torneo=' + encodeURIComponent(torneo))
+        .then(r => r.json())
+        .then(partidos => {
+          loaderPartidos.style.display = 'none';
+          if (partidos.length === 0) {
+            contPartidos.innerHTML = '<p style="text-align:center; color:var(--gris); padding:20px 0;">No hay partidos activos para esta liga.</p>';
+            return;
+          }
+          partidos.forEach(p => {
+            const logoL = p.logoLocal ? '<img src="'+p.logoLocal+'">' : '<div class="sin-logo">⚽</div>';
+            const logoV = p.logoVisitante ? '<img src="'+p.logoVisitante+'">' : '<div class="sin-logo">⚽</div>';
+            const div = document.createElement('div');
+            div.className = 'partido-card';
+            div.dataset.id = p.id; div.dataset.local = p.local; div.dataset.visitante = p.visitante;
+            div.innerHTML =
+              '<div class="equipo">'+logoL+'<span>'+p.local+'</span></div>' +
+              '<div class="marcador"><input type="number" min="0" class="gol-local"><span class="vs">vs</span><input type="number" min="0" class="gol-visitante"></div>' +
+              '<div class="equipo">'+logoV+'<span>'+p.visitante+'</span></div>';
+            contPartidos.appendChild(div);
+          });
+          document.getElementById('desempate-cont').style.display = 'block';
+          btnEnviar.style.display = 'block';
+        })
+        .catch(() => {
+           loaderPartidos.style.display = 'none';
+           contPartidos.innerHTML = '<p style="text-align:center; color:#f87171; padding:20px 0;">Error al cargar los partidos.</p>';
+        });
     });
 
-    if (faltaAlgun || predicciones.length === 0) {
-      estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Cargá el marcador de todos los partidos.';
-      return;
-    }
+    btnEnviar.addEventListener('click', function() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const torneo = selectTorneo.value;
+      const desempate = document.getElementById('desempate').value;
+      const estadoDiv = document.getElementById('estado');
 
-    btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
-    estadoDiv.textContent = '';
+      if (!nombre || !email || !torneo) {
+        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Faltan completar campos obligatorios.';
+        return;
+      }
 
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ nombre, email, torneo, desempate, predicciones })
-    })
-      .then(r => r.json())
-      .then(res => {
-        if (res.ok) {
-          const mensajeWp = encodeURIComponent("¡Hola! Acabo de enviar mi jugada para el torneo " + torneo + " a nombre de " + nombre + ". Adjunto el comprobante de pago.");
-          document.getElementById('wpLink').href = "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + mensajeWp;
-          document.getElementById('modalAlias').textContent = ALIAS_PAGO;
-          document.getElementById('pagoModal').style.display = 'flex';
-          btnEnviar.style.display = 'none';
-        } else {
-          estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error: ' + res.error;
-          btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
-        }
+      const predicciones = []; let faltaAlgun = false;
+      document.querySelectorAll('.partido-card').forEach(card => {
+        const gl = card.querySelector('.gol-local').value;
+        const gv = card.querySelector('.gol-visitante').value;
+        if (gl === '' || gv === '') { faltaAlgun = true; return; }
+        predicciones.push({ id: card.dataset.id, local: card.dataset.local, visitante: card.dataset.visitante, golLocal: gl, golVisitante: gv });
+      });
+
+      if (faltaAlgun || predicciones.length === 0) {
+        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Cargá el marcador de todos los partidos.';
+        return;
+      }
+
+      btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
+      estadoDiv.textContent = '';
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ nombre, email, torneo, desempate, predicciones })
       })
-      .catch(() => {
-        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error de conexión. Intentá de nuevo.';
-        btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
-      });
-  });
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok) {
+            const mensajeWp = encodeURIComponent("¡Hola! Acabo de enviar mi jugada para el torneo " + torneo + " a nombre de " + nombre + ". Adjunto el comprobante de pago.");
+            document.getElementById('wpLink').href = "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + mensajeWp;
+            document.getElementById('modalAlias').textContent = ALIAS_PAGO;
+            document.getElementById('pagoModal').style.display = 'flex';
+            btnEnviar.style.display = 'none';
+          } else {
+            estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error: ' + res.error;
+            btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
+          }
+        })
+        .catch(() => {
+          estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error de conexión. Intentá de nuevo.';
+          btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
+        });
+    });
 
-  function activarFocoCarrusel() {
-    const cont = document.getElementById('carrusel');
-    let ticking = false;
-    function actualizarFoco() {
-      const centroCont = cont.getBoundingClientRect().left + cont.clientWidth / 2;
-      document.querySelectorAll('.pozo-slide').forEach((slide) => {
-        const rect = slide.getBoundingClientRect();
-        const centroSlide = rect.left + rect.width / 2;
-        const distancia = Math.abs(centroCont - centroSlide);
-        slide.classList.toggle('enfocada', distancia < rect.width / 2);
-      });
-      ticking = false;
+    function activarFocoCarrusel() {
+      const cont = document.getElementById('carrusel');
+      let ticking = false;
+      function actualizarFoco() {
+        const centroCont = cont.getBoundingClientRect().left + cont.clientWidth / 2;
+        document.querySelectorAll('.pozo-slide').forEach((slide) => {
+          const rect = slide.getBoundingClientRect();
+          const centroSlide = rect.left + rect.width / 2;
+          const distancia = Math.abs(centroCont - centroSlide);
+          slide.classList.toggle('enfocada', distancia < rect.width / 2);
+        });
+        ticking = false;
+      }
+      cont.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(actualizarFoco); ticking = true; }
+      }, { passive: true });
+      actualizarFoco();
     }
-    cont.addEventListener('scroll', () => {
-      if (!ticking) { requestAnimationFrame(actualizarFoco); ticking = true; }
-    }, { passive: true });
-    actualizarFoco();
-  }
-
   } 
 </script>
 </body>

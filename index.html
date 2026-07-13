@@ -43,7 +43,7 @@
     display: inline-flex;
     align-items: center;
     gap: 40px;
-    animation: scrollSponsors 20s linear infinite;
+    animation: scrollSponsors 35s linear infinite;
   }
   .sponsor-item {
     display: inline-flex;
@@ -343,21 +343,32 @@
 
   // FUNCIÓN PARA ARMAR EL CARTEL FLOTANTE
   function armarCartelesFlotantes(torneos) {
-    const sponsors = torneos.filter(t => t.logo && t.logo.trim() !== '');
+    // FILTRO: Solo tomamos torneos que tengan algo en la columna 'logo_sponsor'
+    const sponsors = torneos.filter(t => t.logo_sponsor && t.logo_sponsor.trim() !== '');
+    
     let htmlSponsors = '';
 
     if (sponsors.length === 0) {
-      // SI NO HAY SPONSORS TODAVÍA: Crea un texto por defecto girando
+      // Texto por defecto si no hay sponsors
       const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ BET NOW PRODE AMATEUR ⚽</span></div>';
       htmlSponsors = textoDefault.repeat(8);
     } else {
-      // SI HAY SPONSORS: Los pone con su logo
       let itemsSponsors = '';
       sponsors.forEach(sp => {
-        itemsSponsors += `<div class="sponsor-item"><img src="${sp.logo}" alt="Sponsor"><span>${sp.nombre}</span></div>`;
+        // AQUÍ ARMAMOS EL TEXTO: "SPONSOR OFICIAL DE: [Nombre]"
+        itemsSponsors += `
+          <div class="sponsor-item">
+            <img src="${sp.logo_sponsor}" alt="Sponsor">
+            <span>SPONSOR OFICIAL DE: ${sp.nombre_sponsor}</span>
+          </div>`;
       });
-      htmlSponsors = itemsSponsors.repeat(6); // Multiplicado para scroll continuo
+      htmlSponsors = itemsSponsors.repeat(4); 
     }
+
+    const renderDoble = htmlSponsors + htmlSponsors;
+    document.getElementById('marqueeTop').innerHTML = renderDoble;
+    document.getElementById('marqueeBottom').innerHTML = renderDoble;
+  }
 
     // Doble render para que la animación no se corte al medio
     const renderDoble = htmlSponsors + htmlSponsors;

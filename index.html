@@ -49,7 +49,43 @@
   .marcador input { width: 48px; height: 48px; text-align: center; font-size: 22px; font-weight: 800; border-radius: 10px; border: 1px solid var(--borde); background: #1b1e28; color: var(--oro); outline: none; }
   .vs { color: var(--gris); font-size: 11px; font-weight: 800; text-transform: uppercase; }
 
-  button#enviar { width: 100%; padding: 16px; margin-top: 24px; border: none; border-radius: 12px; background: var(--oro); color: #000000; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; box-shadow: 0 4px 20px var(--oro-glow); }
+  button#enviar {
+    width: 100%; padding: 16px; margin-top: 24px; border: none; border-radius: 12px;
+    background: var(--oro); color: #000000; font-weight: 800; font-size: 16px;
+    text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
+    box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5);
+    animation: pulso-neon 1.8s ease-in-out infinite;
+  }
+  @keyframes pulso-neon {
+    0%, 100% { box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
+    50% { box-shadow: 0 0 20px var(--oro), 0 0 40px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
+  }
+
+  .pozo-slide { transition: transform 0.25s ease, opacity 0.25s ease; opacity: 0.55; transform: scale(0.92); }
+  .pozo-slide.enfocada { opacity: 1; transform: scale(1); }
+
+  /* PANTALLA DE BLOQUEO: solo se puede jugar desde la app instalada */
+  .gate-overlay {
+    position: fixed; z-index: 99999; inset: 0; background: rgba(5,6,10,0.97);
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+    backdrop-filter: blur(6px);
+  }
+  .gate-card {
+    background: #12141c; border: 2px solid var(--oro); border-radius: 24px;
+    max-width: 420px; width: 100%; padding: 28px 24px; text-align: center;
+    box-shadow: 0 0 40px rgba(250,204,21,0.25);
+  }
+  .gate-logo { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 14px; }
+  .gate-card h2 { color: var(--oro); font-size: 20px; font-weight: 800; margin: 0 0 10px; text-transform: uppercase; }
+  .gate-card p { font-size: 13px; color: #e5e9f0; line-height: 1.5; margin: 8px 0; }
+  .gate-warning { color: #fbbf24; font-weight: 700; font-size: 13px; }
+  .gate-card ol { text-align: left; font-size: 13px; color: #cbd5e1; line-height: 1.7; padding-left: 20px; margin: 12px 0; }
+  .gate-btn {
+    display: block; margin-top: 18px; padding: 14px; border-radius: 12px;
+    background: var(--oro); color: #000; font-weight: 800; text-decoration: none;
+    text-transform: uppercase; letter-spacing: 0.5px; font-size: 14px;
+    box-shadow: 0 0 15px var(--oro-glow);
+  }
 
   .tyc-nota { font-size: 11px; color: var(--gris); text-align: center; margin-top: 10px; }
   details.tyc { margin: 24px 16px 0; padding: 14px 0 4px; border-top: 1px solid rgba(255,255,255,0.08); }
@@ -72,6 +108,35 @@
 </style>
 </head>
 <body>
+  <!-- PANTALLA DE BLOQUEO: se muestra si la app NO está instalada (corriendo en el navegador normal) -->
+  <div id="gateOverlay" class="gate-overlay" style="display:none;">
+    <div class="gate-card">
+      <img src="icon-192.png" class="gate-logo" alt="BET NOW">
+      <h2>📲 Necesitás la app instalada</h2>
+      <p>Para cargar tu pronóstico tenés que instalar la app BET NOW en tu celular. Es gratis y tarda 10 segundos.</p>
+
+      <div id="gateInstagram" style="display:none;">
+        <p class="gate-warning">⚠️ Estás dentro del navegador de Instagram</p>
+        <ol>
+          <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha</li>
+          <li>Elegí <strong>"Abrir en el navegador"</strong></li>
+          <li>Una vez ahí, seguí los pasos de instalación</li>
+        </ol>
+      </div>
+
+      <div id="gateNormal">
+        <ol>
+          <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha del navegador</li>
+          <li>Elegí <strong>"Instalar aplicación"</strong></li>
+          <li>Abrí la app desde el ícono en tu pantalla de inicio</li>
+        </ol>
+      </div>
+
+      <a href="https://betnowlarioja.github.io/Betnow/" class="gate-btn" id="gateBtn">Ir a instalar ahora →</a>
+    </div>
+  </div>
+
+
   <div class="pozos-titulo">💰 🏆 PREMIOS ESTIMADOS — DESLIZÁ Y SELECCIONÁ TU TORNEO</div>
   <div class="pozos-carrusel" id="carrusel">Cargando...</div>
 
@@ -100,7 +165,18 @@
 
   <details class="tyc" id="tyc">
     <summary>Términos y Condiciones</summary>
-    <p>BET NOW - LA RIOJA es un concurso de pronósticos deportivos basado en el conocimiento y la habilidad de cada participante. Es requisito ser mayor de 18 años. El pago queda pendiente de verificación manual. La inscripción confirmada no es reembolsable salvo suspensión del torneo por la organización. Jugá con responsabilidad.</p>
+    <p><strong>1. Naturaleza del concurso.</strong> BET NOW - LA RIOJA es un concurso de pronósticos deportivos. El resultado de cada jugada depende del análisis, conocimiento futbolístico y habilidad de pronóstico de cada participante, quien elige libremente el marcador que cree que va a darse en cada partido. No existen sorteos, tiradas al azar, ni mecanismos de suerte aleatorios dentro de la mecánica de puntuación: el orden de posiciones surge exclusivamente de la cantidad de aciertos de cada participante.</p>
+    <ol>
+      <li><strong>Edad mínima.</strong> Es requisito ser mayor de 18 años para participar. La organización puede solicitar verificación de identidad ante cualquier duda.</li>
+      <li><strong>Inscripción y pozo.</strong> El valor de inscripción por torneo es el publicado al momento de cargar el pronóstico. La organización retiene un porcentaje fijo en concepto de administración; el resto conforma el pozo de premios de la fecha, repartido entre los primeros puestos según el reglamento vigente.</li>
+      <li><strong>Confirmación de pago.</strong> La jugada queda en estado "Pendiente" hasta que la organización verifique manualmente la acreditación de la transferencia. La organización no se responsabiliza por demoras bancarias ajenas a su control.</li>
+      <li><strong>Carácter no reembolsable.</strong> Una vez confirmado el pago, la inscripción no es reembolsable, salvo suspensión definitiva del torneo por causas atribuibles a la organización.</li>
+      <li><strong>Fuerza mayor.</strong> La organización no se responsabiliza por la suspensión, postergación o cancelación de partidos por causas ajenas (condiciones climáticas, decisiones de las ligas oficiales, casos fortuitos), y podrá redefinir el reparto de premios de la fecha afectada de la forma más equitativa posible.</li>
+      <li><strong>Errores de carga.</strong> Es responsabilidad exclusiva del participante revisar su pronóstico antes de enviarlo. La organización no está obligada a modificar una jugada ya enviada.</li>
+      <li><strong>Juego responsable.</strong> Se recomienda participar de forma moderada y dentro de las posibilidades económicas de cada persona. Ante cualquier consulta o inconveniente, podés escribirnos por los canales de contacto oficiales publicados en la página.</li>
+      <li><strong>Datos personales.</strong> El nombre y email brindados se usan exclusivamente para gestionar la participación, confirmar pagos y notificar resultados del torneo. No se comparten con terceros ajenos a la organización.</li>
+      <li><strong>Modificaciones.</strong> La organización podrá actualizar estos Términos y Condiciones en cualquier momento; la versión vigente es siempre la publicada en esta página.</li>
+    </ol>
   </details>
 
   <div class="posiciones-seccion">
@@ -124,14 +200,36 @@
   // ⚠️⚠️ PASO OBLIGATORIO ANTES DE PUBLICAR ⚠️⚠️
   // Pegá acá la URL de tu Web App de Apps Script (la que termina en /exec).
   // La sacás de: Apps Script → Implementar → Administrar implementaciones.
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJqjk_vGUJBS3QeijN8xgw9vWj_nmVWPVh83G1BQz64Amkf8qJED8M0Q6uSynTyIQ/exec";
+  const SCRIPT_URL = "PEGAR_ACA_TU_URL_DE_APPS_SCRIPT_TERMINADA_EN_/exec";
 
   // Número de WhatsApp para recibir comprobantes (con código de país, sin +, sin espacios)
   const WHATSAPP_NUMERO = "5493825662396";
-  const ALIAS_PAGO = "Solicitar por whatsapp"; // <-- cambiá esto por tu alias real
+  const ALIAS_PAGO = "ALIAS.DE.TU.CUENTA"; // <-- cambiá esto por tu alias real
 
   const formatoARS = (n) => '$' + Math.round(n).toLocaleString('es-AR');
 
+  // ============================================================
+  // BLOQUEO: solo se puede jugar desde la app instalada
+  // ============================================================
+  function estaInstalada() {
+    return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  }
+  function esInstagramBrowser() {
+    return /Instagram/i.test(navigator.userAgent);
+  }
+
+  if (!estaInstalada()) {
+    document.getElementById('gateOverlay').style.display = 'flex';
+    if (esInstagramBrowser()) {
+      document.getElementById('gateInstagram').style.display = 'block';
+      document.getElementById('gateNormal').style.display = 'none';
+    }
+    // No se inicializa nada más: sin instalar, no se puede ver ni cargar nada.
+  } else {
+    inicializarApp();
+  }
+
+  function inicializarApp() {
   // Registrar el Service Worker (necesario para que la app sea instalable)
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
@@ -147,6 +245,7 @@
     selectTorneo.dispatchEvent(new Event('change'));
     document.querySelector('.form-cont').scrollIntoView({ behavior: 'smooth' });
   }
+  window.seleccionarTorneo = seleccionarTorneo; // necesario: el onclick inline del HTML generado busca esto en window
 
   function animarNumero(elem, finalVal) {
     let currentVal = 0; const steps = 30; const increment = finalVal / steps;
@@ -178,6 +277,7 @@
       document.querySelectorAll('.pozo-slide-monto').forEach(elem => {
         animarNumero(elem, parseInt(elem.getAttribute('data-val')) || 0);
       });
+      activarFocoCarrusel();
 
       const posiciones = data.posiciones || [];
       const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
@@ -276,6 +376,29 @@
         btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
       });
   });
+
+  // Efecto "foco premium": la tarjeta que queda centrada al deslizar se agranda
+  // y se ve nítida; las demás quedan más chicas y apagadas.
+  function activarFocoCarrusel() {
+    const cont = document.getElementById('carrusel');
+    let ticking = false;
+    function actualizarFoco() {
+      const centroCont = cont.getBoundingClientRect().left + cont.clientWidth / 2;
+      document.querySelectorAll('.pozo-slide').forEach((slide) => {
+        const rect = slide.getBoundingClientRect();
+        const centroSlide = rect.left + rect.width / 2;
+        const distancia = Math.abs(centroCont - centroSlide);
+        slide.classList.toggle('enfocada', distancia < rect.width / 2);
+      });
+      ticking = false;
+    }
+    cont.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(actualizarFoco); ticking = true; }
+    }, { passive: true });
+    actualizarFoco();
+  }
+
+  } // fin inicializarApp()
 </script>
 </body>
 </html>

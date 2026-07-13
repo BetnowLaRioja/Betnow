@@ -4,14 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BET NOW - Prode La Rioja</title>
-
 <!-- PWA: manifest + theme color + ícono para iOS -->
 <link rel="manifest" href="manifest.json?v=2">
 <meta name="theme-color" content="#090a0f">
 <link rel="apple-touch-icon" href="icon-192.png?v=2">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -20,148 +18,103 @@
   }
   * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
   html, body { width: 100%; max-width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; background-color: var(--bg); color: var(--texto); }
-
+  
   /* =========================================
      CARTEL FLOTANTE (SPONSORS MARQUEE)
   ========================================= */
-  .sponsors-marquee {
-    width: 100%;
-    overflow: hidden;
-    background-color: var(--card);
-    padding: 12px 0;
-    border-bottom: 1px solid var(--borde);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-  }
-  .sponsors-marquee.bottom {
-    border-top: 1px solid var(--borde);
-    border-bottom: none;
-    margin-top: 20px;
-  }
-  .sponsors-track {
-    display: inline-flex;
-    align-items: center;
-    gap: 40px;
-    animation: scrollSponsors 35s linear infinite;
-  }
-  .sponsor-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--oro);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .sponsor-item img {
-    height: 32px;
-    width: 32px;
-    object-fit: contain;
-    border-radius: 50%;
-    background: #ffffff;
-    padding: 3px;
-  }
-  @keyframes scrollSponsors {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
+  .sponsors-marquee { width: 100%; overflow: hidden; background-color: var(--card); padding: 12px 0; border-bottom: 1px solid var(--borde); white-space: nowrap; display: flex; align-items: center; }
+  .sponsors-marquee.bottom { border-top: 1px solid var(--borde); border-bottom: none; margin-top: 20px; }
+  .sponsors-track { display: inline-flex; align-items: center; gap: 40px; animation: scrollSponsors 35s linear infinite; }
+  .sponsor-item { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; color: var(--oro); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+  .sponsor-item img { height: 32px; width: 32px; object-fit: contain; border-radius: 50%; background: #ffffff; padding: 3px; }
+  @keyframes scrollSponsors { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+  
   /* =========================================
      LOADER (CARTEL DE CARGANDO)
   ========================================= */
-  #loaderPartidos {
-    display: none;
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--oro);
-  }
-  .spinner {
-    border: 4px solid rgba(250, 204, 21, 0.1);
-    border-left-color: var(--oro);
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 15px auto;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+  #loaderPartidos { display: none; text-align: center; padding: 40px 20px; color: var(--oro); }
+  .spinner { border: 4px solid rgba(250, 204, 21, 0.1); border-left-color: var(--oro); border-radius: 50%; width: 45px; height: 45px; animation: spin 1s linear infinite; margin: 0 auto 15px auto; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   
   .pozos-titulo { padding: 20px 16px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--oro); font-weight: 700; }
   .pozos-carrusel { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .pozos-carrusel::-webkit-scrollbar { display: none; }
-
   .pozo-slide { scroll-snap-align: center; flex: 0 0 85%; cursor: pointer; background: linear-gradient(135deg, #181b26 0%, #10121a 100%); border: 1px solid var(--borde); border-radius: 18px; padding: 20px 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); transition: transform 0.2s ease; }
   .pozo-slide:active { transform: scale(0.97); }
   .pozo-slide-liga { font-size: 11px; color: var(--gris); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
   .logo-torneo-mini { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #ffffff; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); flex-shrink: 0; }
   .pozo-slide-monto { font-size: 34px; font-weight: 800; color: var(--oro); margin: 4px 0; text-shadow: 0 0 10px rgba(250, 204, 21, 0.2); }
   .pozo-slide-cta { font-size: 11px; color: var(--oro); font-weight: 700; }
-
   .form-cont { padding: 0 16px; }
-  h2 { margin: 15px 0 25px; font-size: 26px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 2px; color: var(--oro); text-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
+  h2 { margin: 15px 0 15px; font-size: 26px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 2px; color: var(--oro); text-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
   label { font-size: 11px; color: var(--oro); font-weight: 700; text-transform: uppercase; display: block; margin: 16px 0 6px; letter-spacing: 1px; }
-
   input[type=text], input[type=email], select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: var(--card); color: #ffffff; font-size: 15px; font-weight: 600; outline: none; }
   input[type=text]:focus, input[type=email]:focus, select:focus { border-color: var(--oro); box-shadow: 0 0 10px var(--oro-glow); background: #161a26; }
-
-  .partido-card { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 16px 12px; margin: 14px 0; display: flex; align-items: center; justify-content: space-between; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+  
+  /* MICRO-INTERACCIONES EN PARTIDOS */
+  .partido-card { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 16px 12px; margin: 14px 0; display: flex; align-items: center; justify-content: space-between; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+  .partido-card.completado { border-color: var(--oro); box-shadow: 0 0 20px var(--oro-glow); }
+  
   .equipo { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 8px; }
   .equipo img { width: 44px; height: 44px; object-fit: contain; }
   .equipo .sin-logo { width: 44px; height: 44px; border-radius: 8px; background: #242936; display: flex; align-items: center; justify-content: center; font-size: 20px; }
   .equipo span { font-size: 13px; font-weight: 700; color: #ffffff; text-align: center; line-height: 1.2; }
-
   .marcador { display: flex; align-items: center; gap: 8px; }
   .marcador input { width: 48px; height: 48px; text-align: center; font-size: 22px; font-weight: 800; border-radius: 10px; border: 1px solid var(--borde); background: #1b1e28; color: var(--oro); outline: none; }
   .vs { color: var(--gris); font-size: 11px; font-weight: 800; text-transform: uppercase; }
-
+  
+  /* BOTÓN STICKY */
   button#enviar {
     width: 100%; padding: 16px; margin-top: 24px; border: none; border-radius: 12px;
     background: var(--oro); color: #000000; font-weight: 800; font-size: 16px;
     text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
     box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5);
     animation: pulso-neon 1.8s ease-in-out infinite;
+    position: sticky; bottom: 20px; z-index: 90;
   }
   @keyframes pulso-neon {
     0%, 100% { box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
     50% { box-shadow: 0 0 20px var(--oro), 0 0 40px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
   }
 
+  /* BOTÓN DE COMPARTIR */
+  .btn-share {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 12px;
+    background: transparent; border: 1px solid var(--oro); color: var(--oro);
+    font-weight: 800; font-size: 13px; text-transform: uppercase; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-share:active { background: rgba(250, 204, 21, 0.1); }
+
+  /* TOAST NOTIFICATIONS */
+  .toast {
+    visibility: hidden; min-width: 250px; margin-left: -125px;
+    background-color: #ef4444; color: #fff; text-align: center;
+    border-radius: 12px; padding: 16px; position: fixed; z-index: 99999;
+    left: 50%; bottom: 30px; font-size: 14px; font-weight: 700;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    opacity: 0; transition: opacity 0.3s, bottom 0.3s;
+  }
+  .toast.show { visibility: visible; opacity: 1; bottom: 85px; }
+  .toast.success { background-color: #22c55e; }
+  .toast.info { background-color: #3b82f6; }
+
   .pozo-slide { transition: transform 0.25s ease, opacity 0.25s ease; opacity: 0.55; transform: scale(0.92); }
   .pozo-slide.enfocada { opacity: 1; transform: scale(1); }
-
-  /* PANTALLA DE BLOQUEO: solo se puede jugar desde la app instalada */
-  .gate-overlay {
-    position: fixed; z-index: 99999; inset: 0; background: rgba(5,6,10,0.97);
-    display: flex; align-items: center; justify-content: center; padding: 24px;
-    backdrop-filter: blur(6px);
-  }
-  .gate-card {
-    background: #12141c; border: 2px solid var(--oro); border-radius: 24px;
-    max-width: 420px; width: 100%; padding: 28px 24px; text-align: center;
-    box-shadow: 0 0 40px rgba(250,204,21,0.25);
-  }
+  /* PANTALLA DE BLOQUEO */
+  .gate-overlay { position: fixed; z-index: 99999; inset: 0; background: rgba(5,6,10,0.97); display: flex; align-items: center; justify-content: center; padding: 24px; backdrop-filter: blur(6px); }
+  .gate-card { background: #12141c; border: 2px solid var(--oro); border-radius: 24px; max-width: 420px; width: 100%; padding: 28px 24px; text-align: center; box-shadow: 0 0 40px rgba(250,204,21,0.25); }
   .gate-logo { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 14px; }
   .gate-card h2 { color: var(--oro); font-size: 20px; font-weight: 800; margin: 0 0 10px; text-transform: uppercase; }
   .gate-card p { font-size: 13px; color: #e5e9f0; line-height: 1.5; margin: 8px 0; }
   .gate-warning { color: #fbbf24; font-weight: 700; font-size: 13px; }
   .gate-card ol { text-align: left; font-size: 13px; color: #cbd5e1; line-height: 1.7; padding-left: 20px; margin: 12px 0; }
-  .gate-btn {
-    display: block; margin-top: 18px; padding: 14px; border-radius: 12px;
-    background: var(--oro); color: #000; font-weight: 800; text-decoration: none;
-    text-transform: uppercase; letter-spacing: 0.5px; font-size: 14px;
-    box-shadow: 0 0 15px var(--oro-glow);
-  }
-
+  .gate-btn { display: block; margin-top: 18px; padding: 14px; border-radius: 12px; background: var(--oro); color: #000; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; font-size: 14px; box-shadow: 0 0 15px var(--oro-glow); }
   .tyc-nota { font-size: 11px; color: var(--gris); text-align: center; margin-top: 10px; }
   details.tyc { margin: 24px 16px 0; padding: 14px 0 4px; border-top: 1px solid rgba(255,255,255,0.08); }
   details.tyc summary { font-size: 12px; color: var(--gris); cursor: pointer; }
   details.tyc p, details.tyc li { font-size: 11px; color: var(--gris); line-height: 1.5; }
-
   .posiciones-seccion { margin-top: 40px; padding: 0 16px 30px; border-top: 1px solid rgba(255,255,255,0.08); }
   .posiciones-seccion h3 { text-align: center; color: var(--oro); font-size: 18px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin: 25px 0 15px; }
   .tabla-torneo-card { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 16px 12px; margin-bottom: 20px; }
@@ -169,7 +122,6 @@
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
   th, td { padding: 10px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
   th { color: var(--gris); font-size: 11px; text-transform: uppercase; }
-
   .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(5,6,10,0.95); align-items: center; justify-content: center; padding: 20px; }
   .modal-content { background: #12141c; border: 2px solid var(--oro); border-radius: 24px; max-width: 400px; width: 100%; padding: 26px; text-align: center; }
   .modal h4 { color: var(--oro); font-size: 22px; font-weight: 800; margin: 0 0 12px; text-transform: uppercase; }
@@ -178,13 +130,12 @@
 </style>
 </head>
 <body>
-  <!-- PANTALLA DE BLOQUEO: se muestra si la app NO está instalada (corriendo en el navegador normal) -->
+  <!-- PANTALLA DE BLOQUEO -->
   <div id="gateOverlay" class="gate-overlay" style="display:none;">
     <div class="gate-card">
       <img src="icon-192.png" class="gate-logo" alt="BET NOW">
       <h2>📲 Necesitás la app instalada</h2>
       <p>Para cargar tu pronóstico tenés que instalar la app BET NOW en tu celular. Es gratis y tarda 10 segundos.</p>
-
       <div id="gateInstagram" style="display:none;">
         <p class="gate-warning">⚠️ Estás dentro del navegador de Instagram</p>
         <ol>
@@ -193,7 +144,6 @@
           <li>Una vez ahí, seguí los pasos de instalación</li>
         </ol>
       </div>
-
       <div id="gateiOS" style="display:none;">
         <ol>
           <li>Tocá el botón de <strong>Compartir</strong> (el ícono del cuadrado con la flecha hacia arriba) abajo en Safari.</li>
@@ -201,7 +151,6 @@
           <li>Abrí la app desde el nuevo ícono creado en tu pantalla.</li>
         </ol>
       </div>
-
       <div id="gateNormal" style="display:none;">
         <ol>
           <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha del navegador</li>
@@ -209,7 +158,6 @@
           <li>Abrí la app desde el ícono en tu pantalla de inicio</li>
         </ol>
       </div>
-
       <a href="https://betnowlarioja.github.io/Betnow/" class="gate-btn" id="gateBtn">Ir a instalar ahora →</a>
     </div>
   </div>
@@ -224,32 +172,36 @@
 
   <div class="form-cont">
     <h2>⚽ BET NOW Prode Amateur & Estadísticas</h2>
+    
+    <!-- BOTÓN COMPARTIR -->
+    <button id="btnCompartir" class="btn-share">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+      Invitar a un amigo a jugar
+    </button>
+
     <label>Nombre y Apellido</label>
     <input type="text" id="nombre" placeholder="Escribí tu nombre completo">
-
     <label>Email de contacto</label>
     <input type="email" id="email" placeholder="ejemplo@correo.com">
-
     <label>Elegí tu Torneo</label>
     <select id="torneo"><option value="">Seleccionar liga...</option></select>
-
-    <!-- LOADER AGREGADO AQUÍ -->
+    
+    <!-- LOADER -->
     <div id="loaderPartidos">
       <div class="spinner"></div>
       <h3 style="margin: 10px 0 5px; font-size: 15px; font-weight: 800;">Cargando partidos...</h3>
       <p style="color: var(--gris); font-size: 12px; margin: 0;">Conectando con la base de datos de BET NOW</p>
     </div>
-
+    
     <div id="partidos"></div>
-
+    
     <div id="desempate-cont" style="display:none;">
       <label>¿Cuántos goles en total creés que se marcarán en TODA la fecha?</label>
       <input type="text" id="desempate" placeholder="Ej: 14">
     </div>
-
+    
     <button id="enviar" style="display:none;">ENVIAR MI PRONÓSTICO 🚀</button>
-    <div id="estado" style="margin-top:14px; text-align:center; font-weight:700;"></div>
-    <div class="tyc-nota">Al enviar tu pronóstico, aceptás los <a href="#tyc" style="color:var(--gris);">Términos y Condiciones</a>.</div>
+    <div class="tyc-nota" style="margin-top: 14px;">Al enviar tu pronóstico, aceptás los <a href="#tyc" style="color:var(--gris);">Términos y Condiciones</a>.</div>
   </div>
 
   <details class="tyc" id="tyc">
@@ -278,6 +230,9 @@
     <div class="sponsors-track" id="marqueeBottom"></div>
   </div>
 
+  <!-- TOAST NOTIFICATION DIV -->
+  <div id="toast" class="toast"></div>
+
   <div id="pagoModal" class="modal">
     <div class="modal-content">
       <h4>¡Jugada Recibida!</h4>
@@ -295,8 +250,17 @@
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJqjk_vGUJBS3QeijN8xgw9vWj_nmVWPVh83G1BQz64Amkf8qJED8M0Q6uSynTyIQ/exec";
   const WHATSAPP_NUMERO = "5493825662396";
   const ALIAS_PAGO = "betnow"; 
-
   const formatoARS = (n) => '$' + Math.round(n).toLocaleString('es-AR');
+
+  // ============================================================
+  // UTILIDADES (TOAST Y SHARE)
+  // ============================================================
+  function mostrarToast(mensaje, tipo = 'error') {
+    const toast = document.getElementById('toast');
+    toast.textContent = mensaje;
+    toast.className = 'toast show ' + (tipo === 'success' ? 'success' : '');
+    setTimeout(() => { toast.className = toast.className.replace('show', ''); }, 3500);
+  }
 
   // ============================================================
   // BLOQUEO INSTALACIÓN
@@ -304,7 +268,7 @@
   function estaInstalada() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
   function esInstagramBrowser() { return /Instagram/i.test(navigator.userAgent); }
   function esIphone() { return /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); }
-
+  
   if (!estaInstalada()) {
     document.getElementById('gateOverlay').style.display = 'flex';
     if (esInstagramBrowser()) { document.getElementById('gateInstagram').style.display = 'block'; }
@@ -318,20 +282,15 @@
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('service-worker.js').then(reg => {
-          
-          // Detectar si hay una actualización disponible
           reg.onupdatefound = () => {
             const installingWorker = reg.installing;
             installingWorker.onstatechange = () => {
               if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // Hay una actualización: forzar que tome el control
                 installingWorker.postMessage({ type: 'SKIP_WAITING' });
               }
             };
           };
         });
-
-        // Cuando el nuevo Service Worker toma el control, recargar la página
         let refreshing;
         navigator.serviceWorker.addEventListener('controllerchange', () => {
           if (refreshing) return;
@@ -341,11 +300,33 @@
       });
     }
 
+    const inputNombre = document.getElementById('nombre');
+    const inputEmail = document.getElementById('email');
     const carrusel = document.getElementById('carrusel');
     const selectTorneo = document.getElementById('torneo');
     const contPartidos = document.getElementById('partidos');
     const btnEnviar = document.getElementById('enviar');
     const loaderPartidos = document.getElementById('loaderPartidos');
+    const btnCompartir = document.getElementById('btnCompartir');
+
+    // Cargar datos de LocalStorage (Memoria inteligente)
+    if(localStorage.getItem('betnow_nombre')) inputNombre.value = localStorage.getItem('betnow_nombre');
+    if(localStorage.getItem('betnow_email')) inputEmail.value = localStorage.getItem('betnow_email');
+
+    // Lógica Botón Compartir
+    if(btnCompartir) {
+      btnCompartir.addEventListener('click', () => {
+        if (navigator.share) {
+          navigator.share({
+            title: 'BET NOW - Prode Amateur',
+            text: '¡Sumate a BET NOW! Demostrá cuánto sabés de fútbol y competí por el pozo.',
+            url: window.location.href
+          }).catch(err => console.log('Error al compartir', err));
+        } else {
+          mostrarToast('Tu navegador no soporta esta función.', 'error');
+        }
+      });
+    }
 
     function seleccionarTorneo(nombre) {
       selectTorneo.value = nombre;
@@ -363,11 +344,9 @@
       }, 1000 / steps);
     }
 
-    // FUNCIÓN PARA ARMAR EL CARTEL FLOTANTE (CORREGIDA)
     function armarCartelesFlotantes(torneos) {
       const sponsors = torneos.filter(t => t.logo_sponsor && t.logo_sponsor.trim() !== '');
       let htmlSponsors = '';
-
       if (sponsors.length === 0) {
         const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ BET NOW PRODE AMATEUR ⚽</span></div>';
         htmlSponsors = textoDefault.repeat(8);
@@ -382,7 +361,6 @@
         });
         htmlSponsors = itemsSponsors.repeat(4); 
       }
-
       const renderDoble = htmlSponsors + htmlSponsors;
       document.getElementById('marqueeTop').innerHTML = renderDoble;
       document.getElementById('marqueeBottom').innerHTML = renderDoble;
@@ -394,10 +372,8 @@
       .then(data => {
         const torneos = data.torneos || [];
         armarCartelesFlotantes(torneos);
-
         selectTorneo.innerHTML = '<option value="">Seleccionar liga...</option>' +
           torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Inscripción: ${formatoARS(t.costo)})</option>`).join('');
-
         carrusel.innerHTML = torneos.map(t => {
           const encabezado = t.logo
             ? `<img class="logo-torneo-mini" src="${t.logo}">${t.nombre}`
@@ -412,7 +388,6 @@
           animarNumero(elem, parseInt(elem.getAttribute('data-val')) || 0);
         });
         activarFocoCarrusel();
-
         const posiciones = data.posiciones || [];
         const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
         const posDiv = document.getElementById('posiciones');
@@ -440,7 +415,6 @@
         return;
       }
       loaderPartidos.style.display = 'block';
-
       fetch(SCRIPT_URL + '?format=partidos-torneo&torneo=' + encodeURIComponent(torneo))
         .then(r => r.json())
         .then(partidos => {
@@ -461,6 +435,18 @@
               '<div class="equipo">'+logoV+'<span>'+p.visitante+'</span></div>';
             contPartidos.appendChild(div);
           });
+          
+          // Micro-interacción: Iluminar tarjeta al completar resultados
+          contPartidos.querySelectorAll('.marcador input').forEach(input => {
+            input.addEventListener('input', function() {
+              const card = this.closest('.partido-card');
+              const gl = card.querySelector('.gol-local').value;
+              const gv = card.querySelector('.gol-visitante').value;
+              if (gl !== '' && gv !== '') { card.classList.add('completado'); }
+              else { card.classList.remove('completado'); }
+            });
+          });
+
           document.getElementById('desempate-cont').style.display = 'block';
           btnEnviar.style.display = 'block';
         })
@@ -471,17 +457,15 @@
     });
 
     btnEnviar.addEventListener('click', function() {
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
+      const nombre = inputNombre.value.trim();
+      const email = inputEmail.value.trim();
       const torneo = selectTorneo.value;
       const desempate = document.getElementById('desempate').value;
-      const estadoDiv = document.getElementById('estado');
-
+      
       if (!nombre || !email || !torneo) {
-        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Faltan completar campos obligatorios.';
+        mostrarToast('Faltan completar campos obligatorios.', 'error');
         return;
       }
-
       const predicciones = []; let faltaAlgun = false;
       document.querySelectorAll('.partido-card').forEach(card => {
         const gl = card.querySelector('.gol-local').value;
@@ -489,15 +473,17 @@
         if (gl === '' || gv === '') { faltaAlgun = true; return; }
         predicciones.push({ id: card.dataset.id, local: card.dataset.local, visitante: card.dataset.visitante, golLocal: gl, golVisitante: gv });
       });
-
       if (faltaAlgun || predicciones.length === 0) {
-        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Cargá el marcador de todos los partidos.';
+        mostrarToast('Cargá el marcador de todos los partidos.', 'error');
         return;
       }
 
-      btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
-      estadoDiv.textContent = '';
+      // Guardar en memoria local
+      localStorage.setItem('betnow_nombre', nombre);
+      localStorage.setItem('betnow_email', email);
 
+      btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
+      
       fetch(SCRIPT_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain' },
@@ -512,12 +498,12 @@
             document.getElementById('pagoModal').style.display = 'flex';
             btnEnviar.style.display = 'none';
           } else {
-            estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error: ' + res.error;
+            mostrarToast('Error: ' + res.error, 'error');
             btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
           }
         })
         .catch(() => {
-          estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error de conexión. Intentá de nuevo.';
+          mostrarToast('Error de conexión. Intentá de nuevo.', 'error');
           btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
         });
     });

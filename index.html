@@ -2,403 +2,306 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BET NOW - Prode La Rioja</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BET NOW - Prode Premium</title>
 
-<!-- PWA: manifest + theme color + ícono para iOS -->
-<link rel="manifest" href="manifest.json?v=2">
-<meta name="theme-color" content="#090a0f">
-<link rel="apple-touch-icon" href="icon-192.png?v=2">
+<!-- PWA: manifest e íconos -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0f14">
+<link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 <style>
+  /* PALETA PREMIUM TIPO CASA DE APUESTAS */
   :root {
-    --bg: #090a0f; --card: #12141c; --borde: rgba(250, 204, 21, 0.15);
-    --texto: #ffffff; --gris: #94a3b8; --oro: #facc15; --oro-glow: rgba(250, 204, 21, 0.4);
+    --bg-app: #0a0f14;       /* Fondo súper oscuro */
+    --bg-card: #141b22;      /* Tarjetas grises */
+    --border: #212c36;       /* Bordes sutiles */
+    --text-main: #ffffff;
+    --text-muted: #8b9bb4;
+    --accent: #00ff66;       /* Verde Neón estilo B365 */
+    --accent-glow: rgba(0, 255, 102, 0.4);
+    --gold: #facc15;
   }
-  * { box-sizing: border-box; font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; }
-  html, body { width: 100%; max-width: 100%; min-height: 100vh; margin: 0; padding: 0; overflow-x: hidden; background-color: var(--bg); color: var(--texto); }
+  
+  * { box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+  body { width: 100%; min-height: 100vh; margin: 0; padding: 0; background-color: var(--bg-app); color: var(--text-main); overscroll-behavior-y: none; }
 
-  .pozos-titulo { padding: 20px 16px 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--oro); font-weight: 700; }
-  .pozos-carrusel { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 20px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  /* CAROUSEL TORNEOS */
+  .pozos-titulo { padding: 20px 16px 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: 800; }
+  .pozos-carrusel { display: flex; gap: 12px; overflow-x: auto; padding: 4px 16px 20px; scroll-snap-type: x mandatory; scrollbar-width: none; }
   .pozos-carrusel::-webkit-scrollbar { display: none; }
+  .pozo-slide { scroll-snap-align: center; flex: 0 0 85%; background: linear-gradient(145deg, var(--bg-card), #0d1218); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+  .pozo-slide-liga { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+  .pozo-slide-monto { font-size: 36px; font-weight: 900; color: var(--gold); margin: 8px 0; letter-spacing: -1px; }
+  .pozo-slide-cta { font-size: 12px; color: var(--accent); font-weight: 800; text-transform: uppercase; }
 
-  .pozo-slide { scroll-snap-align: center; flex: 0 0 85%; cursor: pointer; background: linear-gradient(135deg, #181b26 0%, #10121a 100%); border: 1px solid var(--borde); border-radius: 18px; padding: 20px 16px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5); transition: transform 0.2s ease; }
-  .pozo-slide:active { transform: scale(0.97); }
-  .pozo-slide-liga { font-size: 11px; color: var(--gris); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; display: flex; align-items: center; gap: 10px; }
-  .logo-torneo-mini { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #ffffff; padding: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.3); flex-shrink: 0; }
-  .pozo-slide-monto { font-size: 34px; font-weight: 800; color: var(--oro); margin: 4px 0; text-shadow: 0 0 10px rgba(250, 204, 21, 0.2); }
-  .pozo-slide-cta { font-size: 11px; color: var(--oro); font-weight: 700; }
+  /* FORMULARIO */
+  .form-cont { padding: 0 16px 40px; }
+  h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; color: var(--text-main); margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+  label { font-size: 12px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; display: block; margin: 16px 0 8px; }
+  input[type=text], input[type=email], select { width: 100%; padding: 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: #fff; font-size: 16px; font-weight: 600; outline: none; appearance: none; }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 
-  .form-cont { padding: 0 16px; }
-  h2 { margin: 15px 0 25px; font-size: 26px; font-weight: 800; text-align: center; text-transform: uppercase; letter-spacing: 2px; color: var(--oro); text-shadow: 0 0 15px rgba(250, 204, 21, 0.3); }
-  label { font-size: 11px; color: var(--oro); font-weight: 700; text-transform: uppercase; display: block; margin: 16px 0 6px; letter-spacing: 1px; }
+  /* PARTIDOS PREMIUM */
+  .partido-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .equipo { flex: 1; text-align: center; }
+  .equipo span { display: block; font-size: 13px; font-weight: 800; color: #fff; margin-top: 6px; }
+  .marcador { display: flex; align-items: center; gap: 8px; background: #080b0f; padding: 6px; border-radius: 8px; border: 1px solid var(--border); }
+  .marcador input { width: 44px; height: 44px; text-align: center; font-size: 20px; font-weight: 900; border-radius: 6px; border: none; background: #1a222c; color: var(--accent); outline: none; }
+  .vs { color: var(--text-muted); font-size: 10px; font-weight: 900; text-transform: uppercase; }
 
-  input[type=text], input[type=email], select { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid var(--borde); background: var(--card); color: #ffffff; font-size: 15px; font-weight: 600; outline: none; }
-  input[type=text]:focus, input[type=email]:focus, select:focus { border-color: var(--oro); box-shadow: 0 0 10px var(--oro-glow); background: #161a26; }
-
-  .partido-card { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 16px 12px; margin: 14px 0; display: flex; align-items: center; justify-content: space-between; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-  .equipo { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 8px; }
-  .equipo img { width: 44px; height: 44px; object-fit: contain; }
-  .equipo .sin-logo { width: 44px; height: 44px; border-radius: 8px; background: #242936; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-  .equipo span { font-size: 13px; font-weight: 700; color: #ffffff; text-align: center; line-height: 1.2; }
-
-  .marcador { display: flex; align-items: center; gap: 8px; }
-  .marcador input { width: 48px; height: 48px; text-align: center; font-size: 22px; font-weight: 800; border-radius: 10px; border: 1px solid var(--borde); background: #1b1e28; color: var(--oro); outline: none; }
-  .vs { color: var(--gris); font-size: 11px; font-weight: 800; text-transform: uppercase; }
-
+  /* ⚡ BOTÓN NEÓN PREMIUM ⚡ */
   button#enviar {
-    width: 100%; padding: 16px; margin-top: 24px; border: none; border-radius: 12px;
-    background: var(--oro); color: #000000; font-weight: 800; font-size: 16px;
+    width: 100%; padding: 18px; margin-top: 30px; border: none; border-radius: 8px;
+    background: var(--accent); color: #000000; font-weight: 900; font-size: 18px;
     text-transform: uppercase; letter-spacing: 1px; cursor: pointer;
-    box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5);
-    animation: pulso-neon 1.8s ease-in-out infinite;
+    box-shadow: 0 0 15px var(--accent-glow);
+    transition: all 0.2s ease-in-out;
+    position: relative; overflow: hidden;
   }
-  @keyframes pulso-neon {
-    0%, 100% { box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
-    50% { box-shadow: 0 0 20px var(--oro), 0 0 40px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
+  /* Efecto al pasar el dedo o tocar */
+  button#enviar:hover, button#enviar:active {
+    background: #00ff77;
+    box-shadow: 0 0 25px var(--accent), 0 0 50px var(--accent-glow);
+    transform: scale(1.02);
   }
 
-  .pozo-slide { transition: transform 0.25s ease, opacity 0.25s ease; opacity: 0.55; transform: scale(0.92); }
-  .pozo-slide.enfocada { opacity: 1; transform: scale(1); }
-
-  /* PANTALLA DE BLOQUEO: solo se puede jugar desde la app instalada */
+  /* 🔒 PANTALLA DE BLOQUEO ESTRICTA */
   .gate-overlay {
-    position: fixed; z-index: 99999; inset: 0; background: rgba(5,6,10,0.97);
-    display: flex; align-items: center; justify-content: center; padding: 24px;
-    backdrop-filter: blur(6px);
+    position: fixed; z-index: 999999; inset: 0; background: rgba(10,15,20,0.98);
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
   }
   .gate-card {
-    background: #12141c; border: 2px solid var(--oro); border-radius: 24px;
-    max-width: 420px; width: 100%; padding: 28px 24px; text-align: center;
-    box-shadow: 0 0 40px rgba(250,204,21,0.25);
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+    width: 100%; max-width: 380px; padding: 30px 20px; text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
   }
-  .gate-logo { width: 72px; height: 72px; border-radius: 18px; margin-bottom: 14px; }
-  .gate-card h2 { color: var(--oro); font-size: 20px; font-weight: 800; margin: 0 0 10px; text-transform: uppercase; }
-  .gate-card p { font-size: 13px; color: #e5e9f0; line-height: 1.5; margin: 8px 0; }
-  .gate-warning { color: #fbbf24; font-weight: 700; font-size: 13px; }
-  .gate-card ol { text-align: left; font-size: 13px; color: #cbd5e1; line-height: 1.7; padding-left: 20px; margin: 12px 0; }
-  .gate-btn {
-    display: block; margin-top: 18px; padding: 14px; border-radius: 12px;
-    background: var(--oro); color: #000; font-weight: 800; text-decoration: none;
-    text-transform: uppercase; letter-spacing: 0.5px; font-size: 14px;
-    box-shadow: 0 0 15px var(--oro-glow);
-  }
+  .gate-logo { width: 70px; height: 70px; border-radius: 16px; margin-bottom: 20px; }
+  .gate-card h2 { color: var(--text-main); font-size: 20px; font-weight: 900; border: none; margin: 0 0 10px; padding: 0; }
+  .gate-card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; }
+  .instr-box { background: #080b0f; border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: left; }
+  .instr-box .alerta-ig { color: #f43f5e; font-weight: 900; text-transform: uppercase; font-size: 12px; margin-bottom: 10px; display: block; }
+  .instr-box ol { margin: 0; padding-left: 20px; color: #fff; font-size: 14px; line-height: 1.6; }
+  .instr-box strong { color: var(--accent); }
 
-  .tyc-nota { font-size: 11px; color: var(--gris); text-align: center; margin-top: 10px; }
-  details.tyc { margin: 24px 16px 0; padding: 14px 0 4px; border-top: 1px solid rgba(255,255,255,0.08); }
-  details.tyc summary { font-size: 12px; color: var(--gris); cursor: pointer; }
-  details.tyc p, details.tyc li { font-size: 11px; color: var(--gris); line-height: 1.5; }
+  /* MODAL DE PAGO */
+  .modal { display: none; position: fixed; z-index: 9999; inset: 0; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; }
+  .modal-content { background: var(--bg-card); border: 1px solid var(--accent); border-radius: 16px; width: 100%; max-width: 380px; padding: 24px; text-align: center; }
+  .alias-box { background: #080b0f; border: 1px dashed var(--accent); border-radius: 8px; padding: 16px; margin: 20px 0; font-size: 20px; font-weight: 900; color: var(--accent); letter-spacing: 1px; }
+  .btn-whatsapp { display: block; width: 100%; padding: 16px; border-radius: 8px; background: #25D366; color: #fff; font-weight: 900; text-decoration: none; text-transform: uppercase; }
 
-  .posiciones-seccion { margin-top: 40px; padding: 0 16px 30px; border-top: 1px solid rgba(255,255,255,0.08); }
-  .posiciones-seccion h3 { text-align: center; color: var(--oro); font-size: 18px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin: 25px 0 15px; }
-  .tabla-torneo-card { background: var(--card); border: 1px solid var(--borde); border-radius: 16px; padding: 16px 12px; margin-bottom: 20px; }
-  .tabla-torneo-card h4 { margin: 0 0 12px; font-size: 15px; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; }
-  table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th, td { padding: 10px 6px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.04); }
-  th { color: var(--gris); font-size: 11px; text-transform: uppercase; }
-
-  .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(5,6,10,0.95); align-items: center; justify-content: center; padding: 20px; }
-  .modal-content { background: #12141c; border: 2px solid var(--oro); border-radius: 24px; max-width: 400px; width: 100%; padding: 26px; text-align: center; }
-  .modal h4 { color: var(--oro); font-size: 22px; font-weight: 800; margin: 0 0 12px; text-transform: uppercase; }
-  .alias-box { background: #1b1e28; border: 1px dashed var(--oro); border-radius: 12px; padding: 14px; margin: 18px 0; font-size: 18px; font-weight: 800; color: var(--oro); }
-  .btn-whatsapp { display: block; width: 100%; padding: 14px; border-radius: 12px; background: #22c55e; color: #ffffff; font-weight: 800; font-size: 15px; text-decoration: none; text-transform: uppercase; margin-top: 15px; }
+  .oculto { display: none !important; }
 </style>
 </head>
 <body>
-  <!-- PANTALLA DE BLOQUEO: se muestra si la app NO está instalada (corriendo en el navegador normal) -->
-  <div id="gateOverlay" class="gate-overlay" style="display:none;">
+
+  <!-- 🔒 CANDADO ESTRICTO - NO SE PUEDE CERRAR -->
+  <div id="gateOverlay" class="gate-overlay oculto">
     <div class="gate-card">
-      <img src="icon-192.png" class="gate-logo" alt="BET NOW">
-      <h2>📲 Necesitás la app instalada</h2>
-      <p>Para cargar tu pronóstico tenés que instalar la app BET NOW en tu celular. Es gratis y tarda 10 segundos.</p>
-
-      <div id="gateInstagram" style="display:none;">
-        <p class="gate-warning">⚠️ Estás dentro del navegador de Instagram</p>
-        <ol>
-          <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha</li>
-          <li>Elegí <strong>"Abrir en el navegador"</strong></li>
-          <li>Una vez ahí, seguí los pasos de instalación</li>
-        </ol>
+      <img src="icon-192.png" class="gate-logo" alt="Logo">
+      <h2>APLICACIÓN REQUERIDA</h2>
+      <p>Por seguridad y rendimiento, BET NOW solo funciona como aplicación nativa instalada en tu dispositivo.</p>
+      
+      <div id="instrucciones" class="instr-box">
+        <!-- El JS inyecta las instrucciones correctas acá -->
       </div>
-
-      <div id="gateNormal">
-        <ol>
-          <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha del navegador</li>
-          <li>Elegí <strong>"Instalar aplicación"</strong></li>
-          <li>Abrí la app desde el ícono en tu pantalla de inicio</li>
-        </ol>
-      </div>
-
-      <a href="https://betnowlarioja.github.io/Betnow/" class="gate-btn" id="gateBtn">Ir a instalar ahora →</a>
     </div>
   </div>
 
+  <!-- CONTENIDO APP -->
+  <div id="appContent" class="oculto">
+    <div class="pozos-titulo">PREMIOS ESTIMADOS</div>
+    <div class="pozos-carrusel" id="carrusel">Cargando torneos...</div>
 
-  <div class="pozos-titulo">💰 🏆 PREMIOS ESTIMADOS — DESLIZÁ Y SELECCIONÁ TU TORNEO</div>
-  <div class="pozos-carrusel" id="carrusel">Cargando...</div>
+    <div class="form-cont">
+      <h2>BET NOW PRODE</h2>
+      <label>Nombre Completo</label>
+      <input type="text" id="nombre" placeholder="Ingresá tu nombre">
 
-  <div class="form-cont">
-    <h2>⚽ BET NOW Prode Amateur & Estadísticas</h2>
-    <label>Nombre y Apellido</label>
-    <input type="text" id="nombre" placeholder="Escribí tu nombre completo">
+      <label>Email de jugador</label>
+      <input type="email" id="email" placeholder="correo@ejemplo.com">
 
-    <label>Email de contacto</label>
-    <input type="email" id="email" placeholder="ejemplo@correo.com">
+      <label>Seleccionar Liga</label>
+      <select id="torneo"><option value="">Elegí un torneo...</option></select>
 
-    <label>Elegí tu Torneo</label>
-    <select id="torneo"><option value="">Seleccionar liga...</option></select>
+      <div id="partidos"></div>
 
-    <div id="partidos"></div>
+      <div id="desempate-cont" class="oculto">
+        <label>Goles totales de la fecha (Desempate)</label>
+        <input type="text" id="desempate" placeholder="Ej: 15">
+      </div>
 
-    <div id="desempate-cont" style="display:none;">
-      <label>¿Cuántos goles en total creés que se marcarán en TODA la fecha?</label>
-      <input type="text" id="desempate" placeholder="Ej: 14">
+      <button id="enviar" class="oculto">Confirmar Jugada</button>
+      <div id="estado" style="margin-top:16px; text-align:center; font-weight:800; color:#f43f5e;"></div>
     </div>
-
-    <button id="enviar" style="display:none;">ENVIAR MI PRONÓSTICO 🚀</button>
-    <div id="estado" style="margin-top:14px; text-align:center; font-weight:700;"></div>
-    <div class="tyc-nota">Al enviar tu pronóstico, aceptás los <a href="#tyc" style="color:var(--gris);">Términos y Condiciones</a>.</div>
   </div>
 
-  <details class="tyc" id="tyc">
-    <summary>Términos y Condiciones</summary>
-    <p><strong>1. Naturaleza del concurso.</strong> BET NOW - LA RIOJA es un concurso de pronósticos deportivos. El resultado de cada jugada depende del análisis, conocimiento futbolístico y habilidad de pronóstico de cada participante, quien elige libremente el marcador que cree que va a darse en cada partido. No existen sorteos, tiradas al azar, ni mecanismos de suerte aleatorios dentro de la mecánica de puntuación: el orden de posiciones surge exclusivamente de la cantidad de aciertos de cada participante.</p>
-    <ol>
-      <li><strong>Edad mínima.</strong> Es requisito ser mayor de 18 años para participar. La organización puede solicitar verificación de identidad ante cualquier duda.</li>
-      <li><strong>Inscripción y pozo.</strong> El valor de inscripción por torneo es el publicado al momento de cargar el pronóstico. La organización retiene un porcentaje fijo en concepto de administración; el resto conforma el pozo de premios de la fecha, repartido entre los primeros puestos según el reglamento vigente.</li>
-      <li><strong>Confirmación de pago.</strong> La jugada queda en estado "Pendiente" hasta que la organización verifique manualmente la acreditación de la transferencia. La organización no se responsabiliza por demoras bancarias ajenas a su control.</li>
-      <li><strong>Carácter no reembolsable.</strong> Una vez confirmado el pago, la inscripción no es reembolsable, salvo suspensión definitiva del torneo por causas atribuibles a la organización.</li>
-      <li><strong>Fuerza mayor.</strong> La organización no se responsabiliza por la suspensión, postergación o cancelación de partidos por causas ajenas (condiciones climáticas, decisiones de las ligas oficiales, casos fortuitos), y podrá redefinir el reparto de premios de la fecha afectada de la forma más equitativa posible.</li>
-      <li><strong>Errores de carga.</strong> Es responsabilidad exclusiva del participante revisar su pronóstico antes de enviarlo. La organización no está obligada a modificar una jugada ya enviada.</li>
-      <li><strong>Juego responsable.</strong> Se recomienda participar de forma moderada y dentro de las posibilidades económicas de cada persona. Ante cualquier consulta o inconveniente, podés escribirnos por los canales de contacto oficiales publicados en la página.</li>
-      <li><strong>Datos personales.</strong> El nombre y email brindados se usan exclusivamente para gestionar la participación, confirmar pagos y notificar resultados del torneo. No se comparten con terceros ajenos a la organización.</li>
-      <li><strong>Modificaciones.</strong> La organización podrá actualizar estos Términos y Condiciones en cualquier momento; la versión vigente es siempre la publicada en esta página.</li>
-    </ol>
-  </details>
-
-  <div class="posiciones-seccion">
-    <h3>🏆 TABLAS DE POSICIONES</h3>
-    <div id="posiciones">Cargando...</div>
-  </div>
-
+  <!-- MODAL DE PAGO -->
   <div id="pagoModal" class="modal">
     <div class="modal-content">
-      <h4>¡Jugada Recibida!</h4>
-      <p>Para activar tu participación en el pozo, transferí el monto de inscripción al siguiente alias:</p>
+      <h2 style="border:none; margin:0; color:var(--text-main);">¡JUGADA REGISTRADA!</h2>
+      <p style="color:var(--text-muted); font-size:14px; margin-top:10px;">Aboná la inscripción para validar tu ticket.</p>
       <div class="alias-box" id="modalAlias">ALIAS.PENDIENTE</div>
-      <p style="font-size:12px; color:#94a3b8;">(Podés copiar el alias y pagar desde tu billetera virtual)</p>
-      <p style="font-weight:700; margin-top:15px; color:#facc15;">⚠️ IMPORTANTE:</p>
-      <p>Tocá el botón de abajo para enviar el comprobante de transferencia y que activemos tu jugada de inmediato:</p>
-      <a id="wpLink" href="#" target="_blank" class="btn-whatsapp">Enviar comprobante por WhatsApp 📱</a>
+      <a id="wpLink" href="#" target="_blank" class="btn-whatsapp">Enviar Comprobante</a>
     </div>
   </div>
 
 <script>
-  // ⚠️⚠️ PASO OBLIGATORIO ANTES DE PUBLICAR ⚠️⚠️
-  // Pegá acá la URL de tu Web App de Apps Script (la que termina en /exec).
-  // La sacás de: Apps Script → Implementar → Administrar implementaciones.
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJqjk_vGUJBS3QeijN8xgw9vWj_nmVWPVh83G1BQz64Amkf8qJED8M0Q6uSynTyIQ/exec";
-
-  // Número de WhatsApp para recibir comprobantes (con código de país, sin +, sin espacios)
+  // ================= CONFIGURACIÓN =================
+  const SCRIPT_URL = "PEGAR_ACA_TU_URL_DE_APPS_SCRIPT_TERMINADA_EN_/exec";
   const WHATSAPP_NUMERO = "5493825662396";
-  const ALIAS_PAGO = "Betnow"; // <-- cambiá esto por tu alias real
+  const ALIAS_PAGO = "ALIAS.DE.TU.CUENTA";
+  // =================================================
 
   const formatoARS = (n) => '$' + Math.round(n).toLocaleString('es-AR');
 
-  // ============================================================
-  // BLOQUEO: solo se puede jugar desde la app instalada
-  // ============================================================
-  function estaInstalada() {
+  // LÓGICA DE BLOQUEO ESTRICTO
+  function estaEnApp() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
-  function esInstagramBrowser() {
-    return /Instagram/i.test(navigator.userAgent);
-  }
 
-  if (!estaInstalada()) {
-    document.getElementById('gateOverlay').style.display = 'flex';
-    if (esInstagramBrowser()) {
-      document.getElementById('gateInstagram').style.display = 'block';
-      document.getElementById('gateNormal').style.display = 'none';
-    }
-    // No se inicializa nada más: sin instalar, no se puede ver ni cargar nada.
-  } else {
-    inicializarApp();
-  }
+  function evaluarEntorno() {
+    const ua = navigator.userAgent;
+    const isInstagram = /Instagram|FBAN|FBAV/i.test(ua);
+    const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-  function inicializarApp() {
-  // Registrar el Service Worker (necesario para que la app sea instalable)
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => navigator.serviceWorker.register('service-worker.js'));
-  }
-
-  const carrusel = document.getElementById('carrusel');
-  const selectTorneo = document.getElementById('torneo');
-  const contPartidos = document.getElementById('partidos');
-  const btnEnviar = document.getElementById('enviar');
-
-  function seleccionarTorneo(nombre) {
-    selectTorneo.value = nombre;
-    selectTorneo.dispatchEvent(new Event('change'));
-    document.querySelector('.form-cont').scrollIntoView({ behavior: 'smooth' });
-  }
-  window.seleccionarTorneo = seleccionarTorneo; // necesario: el onclick inline del HTML generado busca esto en window
-
-  function animarNumero(elem, finalVal) {
-    let currentVal = 0; const steps = 30; const increment = finalVal / steps;
-    const timer = setInterval(() => {
-      currentVal += increment;
-      if (currentVal >= finalVal) { currentVal = finalVal; clearInterval(timer); }
-      elem.textContent = formatoARS(currentVal);
-    }, 1000 / steps);
-  }
-
-  // Carga inicial: torneos (pozo, costo, logo) y posiciones
-  fetch(SCRIPT_URL + '?format=json')
-    .then(r => r.json())
-    .then(data => {
-      const torneos = data.torneos || [];
-      selectTorneo.innerHTML = '<option value="">Seleccionar liga...</option>' +
-        torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Inscripción: ${formatoARS(t.costo)})</option>`).join('');
-
-      carrusel.innerHTML = torneos.map(t => {
-        const encabezado = t.logo
-          ? `<img class="logo-torneo-mini" src="${t.logo}">${t.nombre}`
-          : `🏆 ${t.nombre}`;
-        return `<div class="pozo-slide" onclick="seleccionarTorneo('${t.nombre.replace(/'/g, "\\'")}')">
-          <div class="pozo-slide-liga">${encabezado}</div>
-          <div class="pozo-slide-monto" data-val="${t.pozo}">$0</div>
-          <div class="pozo-slide-cta">Acceso: ${formatoARS(t.costo)} | Participar →</div>
-        </div>`;
-      }).join('');
-      document.querySelectorAll('.pozo-slide-monto').forEach(elem => {
-        animarNumero(elem, parseInt(elem.getAttribute('data-val')) || 0);
-      });
-      activarFocoCarrusel();
-
-      const posiciones = data.posiciones || [];
-      const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
-      const posDiv = document.getElementById('posiciones');
-      if (torneosUnicos.length === 0) {
-        posDiv.innerHTML = '<p style="text-align:center; color:var(--gris); padding:10px;">No hay posiciones procesadas todavía.</p>';
+    if (!estaEnApp()) {
+      document.getElementById('gateOverlay').classList.remove('oculto');
+      const box = document.getElementById('instrucciones');
+      
+      if (isInstagram) {
+        box.innerHTML = `<span class="alerta-ig">Estás en el navegador de Instagram</span>
+                         <ol>
+                           <li>Tocá los <strong>tres puntos (⋮ o ···)</strong> arriba a la derecha.</li>
+                           <li>Elegí <strong>Abrir en el navegador</strong> (Chrome o Safari).</li>
+                           <li>Seguí los pasos en el nuevo navegador.</li>
+                         </ol>`;
+      } else if (isIOS) {
+        box.innerHTML = `<ol>
+                           <li>Tocá el botón <strong>Compartir</strong> abajo en Safari.</li>
+                           <li>Seleccioná <strong>Agregar a inicio</strong>.</li>
+                           <li>Abrí la nueva app desde tu pantalla.</li>
+                         </ol>`;
       } else {
-        posDiv.innerHTML = torneosUnicos.map(torneo => {
-          const filas = posiciones.filter(p => p.torneo === torneo)
-            .map(p => `<tr><td>${p.posicion}</td><td style="text-align:left;font-weight:600;">${p.nombre}</td><td>${p.puntos}</td><td style="color:#facc15;">${formatoARS(p.premio)}</td></tr>`)
-            .join('');
-          return `<div class="tabla-torneo-card"><h4>🏆 ${torneo}</h4><table><tr><th>#</th><th style="text-align:left;">Nombre</th><th>Pts</th><th>Premio Est.</th></tr>${filas}</table></div>`;
-        }).join('');
+        box.innerHTML = `<ol>
+                           <li>Tocá los <strong>tres puntos (⋮)</strong> arriba a la derecha en Chrome.</li>
+                           <li>Seleccioná <strong>Instalar aplicación</strong> o <strong>Agregar a inicio</strong>.</li>
+                           <li>Abrí la app desde tu menú de celular.</li>
+                         </ol>`;
       }
-    })
-    .catch(() => { carrusel.innerHTML = '<p style="color:#f87171;padding:16px;">No se pudo conectar con el backend. Revisá SCRIPT_URL en index.html.</p>'; });
+    } else {
+      document.getElementById('appContent').classList.remove('oculto');
+      iniciarSistema();
+    }
+  }
 
-  selectTorneo.addEventListener('change', function(ev) {
-    const torneo = ev.target.value;
-    contPartidos.innerHTML = ''; btnEnviar.style.display = 'none';
-    document.getElementById('desempate-cont').style.display = 'none';
-    if (!torneo) return;
+  // Ejecutar validación de seguridad al instante
+  evaluarEntorno();
 
-    fetch(SCRIPT_URL + '?format=partidos-torneo&torneo=' + encodeURIComponent(torneo))
-      .then(r => r.json())
-      .then(partidos => {
-        if (partidos.length === 0) {
-          contPartidos.innerHTML = '<p style="text-align:center; color:var(--gris); padding:20px 0;">No hay partidos activos para esta liga.</p>';
-          return;
-        }
-        partidos.forEach(p => {
-          const logoL = p.logoLocal ? '<img src="'+p.logoLocal+'">' : '<div class="sin-logo">⚽</div>';
-          const logoV = p.logoVisitante ? '<img src="'+p.logoVisitante+'">' : '<div class="sin-logo">⚽</div>';
-          const div = document.createElement('div');
-          div.className = 'partido-card';
-          div.dataset.id = p.id; div.dataset.local = p.local; div.dataset.visitante = p.visitante;
-          div.innerHTML =
-            '<div class="equipo">'+logoL+'<span>'+p.local+'</span></div>' +
-            '<div class="marcador"><input type="number" min="0" class="gol-local"><span class="vs">vs</span><input type="number" min="0" class="gol-visitante"></div>' +
-            '<div class="equipo">'+logoV+'<span>'+p.visitante+'</span></div>';
-          contPartidos.appendChild(div);
-        });
-        document.getElementById('desempate-cont').style.display = 'block';
-        btnEnviar.style.display = 'block';
+  function iniciarSistema() {
+    // ACTUALIZACIÓN AUTOMÁTICA SILENCIOSA (Service Worker)
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').then((reg) => {
+        reg.onupdatefound = () => {
+          const installingWorker = reg.installing;
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window.location.reload(); // Fuerza recarga si hay actualización
+            }
+          };
+        };
       });
-  });
-
-  btnEnviar.addEventListener('click', function() {
-    const nombre = document.getElementById('nombre').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const torneo = selectTorneo.value;
-    const desempate = document.getElementById('desempate').value;
-    const estadoDiv = document.getElementById('estado');
-
-    if (!nombre || !email || !torneo) {
-      estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Faltan completar campos obligatorios.';
-      return;
     }
 
-    const predicciones = []; let faltaAlgun = false;
-    document.querySelectorAll('.partido-card').forEach(card => {
-      const gl = card.querySelector('.gol-local').value;
-      const gv = card.querySelector('.gol-visitante').value;
-      if (gl === '' || gv === '') { faltaAlgun = true; return; }
-      predicciones.push({ id: card.dataset.id, local: card.dataset.local, visitante: card.dataset.visitante, golLocal: gl, golVisitante: gv });
+    const carrusel = document.getElementById('carrusel');
+    const selectTorneo = document.getElementById('torneo');
+    const contPartidos = document.getElementById('partidos');
+    const btnEnviar = document.getElementById('enviar');
+
+    // Carga de datos
+    fetch(SCRIPT_URL + '?format=json')
+      .then(r => r.json())
+      .then(data => {
+        const torneos = data.torneos || [];
+        selectTorneo.innerHTML = '<option value="">Elegí un torneo...</option>' +
+          torneos.map(t => `<option value="${t.nombre}">${t.nombre} (${formatoARS(t.costo)})</option>`).join('');
+
+        carrusel.innerHTML = torneos.map(t => {
+          return `<div class="pozo-slide" onclick="document.getElementById('torneo').value='${t.nombre}'; document.getElementById('torneo').dispatchEvent(new Event('change'));">
+            <div class="pozo-slide-liga">🏆 ${t.nombre}</div>
+            <div class="pozo-slide-monto">${formatoARS(t.pozo)}</div>
+            <div class="pozo-slide-cta">Jugar por ${formatoARS(t.costo)} →</div>
+          </div>`;
+        }).join('');
+      });
+
+    // Selección de torneo
+    selectTorneo.addEventListener('change', function(ev) {
+      const torneo = ev.target.value;
+      contPartidos.innerHTML = ''; btnEnviar.classList.add('oculto');
+      document.getElementById('desempate-cont').classList.add('oculto');
+      if (!torneo) return;
+
+      fetch(SCRIPT_URL + '?format=partidos-torneo&torneo=' + encodeURIComponent(torneo))
+        .then(r => r.json())
+        .then(partidos => {
+          if(partidos.length === 0) return;
+          partidos.forEach(p => {
+            const div = document.createElement('div'); div.className = 'partido-card';
+            div.dataset.id = p.id; div.dataset.local = p.local; div.dataset.visitante = p.visitante;
+            div.innerHTML = `<div class="equipo"><span>${p.local}</span></div>
+                             <div class="marcador"><input type="number" min="0" class="gl"><span class="vs">vs</span><input type="number" min="0" class="gv"></div>
+                             <div class="equipo"><span>${p.visitante}</span></div>`;
+            contPartidos.appendChild(div);
+          });
+          document.getElementById('desempate-cont').classList.remove('oculto');
+          btnEnviar.classList.remove('oculto');
+        });
     });
 
-    if (faltaAlgun || predicciones.length === 0) {
-      estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Cargá el marcador de todos los partidos.';
-      return;
-    }
+    // Envío de jugada
+    btnEnviar.addEventListener('click', function() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const torneo = selectTorneo.value;
+      const desempate = document.getElementById('desempate').value;
+      const estadoDiv = document.getElementById('estado');
 
-    btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
-    estadoDiv.textContent = '';
+      if (!nombre || !email || !torneo) { estadoDiv.textContent = 'Completá tus datos.'; return; }
 
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ nombre, email, torneo, desempate, predicciones })
-    })
+      const predicciones = []; let falta = false;
+      document.querySelectorAll('.partido-card').forEach(card => {
+        const gl = card.querySelector('.gl').value; const gv = card.querySelector('.gv').value;
+        if (gl === '' || gv === '') falta = true;
+        predicciones.push({ id: card.dataset.id, local: card.dataset.local, visitante: card.dataset.visitante, golLocal: gl, golVisitante: gv });
+      });
+
+      if (falta) { estadoDiv.textContent = 'Completá todos los resultados.'; return; }
+
+      btnEnviar.disabled = true; btnEnviar.textContent = 'PROCESANDO...'; estadoDiv.textContent = '';
+
+      fetch(SCRIPT_URL, {
+        method: 'POST', headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ nombre, email, torneo, desempate, predicciones })
+      })
       .then(r => r.json())
       .then(res => {
         if (res.ok) {
-          const mensajeWp = encodeURIComponent("¡Hola! Acabo de enviar mi jugada para el torneo " + torneo + " a nombre de " + nombre + ". Adjunto el comprobante de pago.");
-          document.getElementById('wpLink').href = "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + mensajeWp;
+          const msj = encodeURIComponent(`Hola, envío mi jugada para ${torneo}. Jugador: ${nombre}.`);
+          document.getElementById('wpLink').href = `https://wa.me/${WHATSAPP_NUMERO}?text=${msj}`;
           document.getElementById('modalAlias').textContent = ALIAS_PAGO;
           document.getElementById('pagoModal').style.display = 'flex';
-          btnEnviar.style.display = 'none';
         } else {
-          estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error: ' + res.error;
-          btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
+          estadoDiv.textContent = 'Error al enviar.';
+          btnEnviar.disabled = false; btnEnviar.textContent = 'Confirmar Jugada';
         }
-      })
-      .catch(() => {
-        estadoDiv.style.color = '#f87171'; estadoDiv.textContent = 'Error de conexión. Intentá de nuevo.';
-        btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
       });
-  });
-
-  // Efecto "foco premium": la tarjeta que queda centrada al deslizar se agranda
-  // y se ve nítida; las demás quedan más chicas y apagadas.
-  function activarFocoCarrusel() {
-    const cont = document.getElementById('carrusel');
-    let ticking = false;
-    function actualizarFoco() {
-      const centroCont = cont.getBoundingClientRect().left + cont.clientWidth / 2;
-      document.querySelectorAll('.pozo-slide').forEach((slide) => {
-        const rect = slide.getBoundingClientRect();
-        const centroSlide = rect.left + rect.width / 2;
-        const distancia = Math.abs(centroCont - centroSlide);
-        slide.classList.toggle('enfocada', distancia < rect.width / 2);
-      });
-      ticking = false;
-    }
-    cont.addEventListener('scroll', () => {
-      if (!ticking) { requestAnimationFrame(actualizarFoco); ticking = true; }
-    }, { passive: true });
-    actualizarFoco();
+    });
   }
-
-  } // fin inicializarApp()
 </script>
 </body>
 </html>

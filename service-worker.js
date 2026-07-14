@@ -1,12 +1,16 @@
 // versión 2
 // Incrementá este número (ej: v2, v3, v4) cada vez que subas un cambio grande a GitHub 
 // para forzar a los teléfonos a descargar la nueva versión automáticamente.
-const CACHE_NAME = 'betnow-shell-v2';
-const ARCHIVOS_SHELL = [
-  './index.html',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png'
+const CACHE_NAME = 'locosx-lapelota-v3'; 
+
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/styles.css',
+  '/app.js',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 // Al instalar, descargamos el cascarón (shell) visual y forzamos la instalación inmediata

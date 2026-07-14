@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Locos x la pelota</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locos x la pelota - Certamen de Destreza</title>
 <!-- PWA: manifest + theme color + ícono para iOS -->
-<link rel="manifest" href="manifest.json?v=2">
+<link rel="manifest" href="manifest.json?v=3">
 <meta name="theme-color" content="#090a0f">
-<link rel="apple-touch-icon" href="icon-192.png?v=2">
+<link rel="apple-touch-icon" href="icon-192.png?v=3">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -133,9 +133,9 @@
   <!-- PANTALLA DE BLOQUEO -->
   <div id="gateOverlay" class="gate-overlay" style="display:none;">
     <div class="gate-card">
-      <img src="icon-192.png" class="gate-logo" alt="BET NOW">
+      <img src="icon-192.png" class="gate-logo" alt="Locos x la pelota">
       <h2>📲 Necesitás la app instalada</h2>
-      <p>Para cargar tu pronóstico tenés que instalar la app BET NOW en tu celular. Es gratis y tarda 10 segundos.</p>
+      <p>Para cargar tu pronóstico tenés que instalar la app Locos x la pelota en tu celular. Es gratis y tarda 10 segundos.</p>
       <div id="gateInstagram" style="display:none;">
         <p class="gate-warning">⚠️ Estás dentro del navegador de Instagram</p>
         <ol>
@@ -158,6 +158,7 @@
           <li>Abrí la app desde el ícono en tu pantalla de inicio</li>
         </ol>
       </div>
+      <!-- Sugerencia: Actualizá también la URL de tu repo en GitHub si cambiás el nombre -->
       <a href="https://betnowlarioja.github.io/Betnow/" class="gate-btn" id="gateBtn">Ir a instalar ahora →</a>
     </div>
   </div>
@@ -167,16 +168,16 @@
     <div class="sponsors-track" id="marqueeTop"></div>
   </div>
 
-  <div class="pozos-titulo">💰 🏆 PREMIOS ESTIMADOS — DESLIZÁ Y SELECCIONÁ TU TORNEO</div>
+  <div class="pozos-titulo">💰 🏆 INCENTIVOS ESTIMADOS — DESLIZÁ Y SELECCIONÁ TU TORNEO</div>
   <div class="pozos-carrusel" id="carrusel">Cargando...</div>
 
   <div class="form-cont">
-    <h2>⚽ BET NOW Prode Amateur & Estadísticas</h2>
+    <h2>⚽ Locos x la pelota - Certamen de Destreza</h2>
     
     <!-- BOTÓN COMPARTIR -->
     <button id="btnCompartir" class="btn-share">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
-      Invitar a un amigo a jugar
+      Invitar a un amigo a participar
     </button>
 
     <label>Nombre y Apellido</label>
@@ -190,7 +191,7 @@
     <div id="loaderPartidos">
       <div class="spinner"></div>
       <h3 style="margin: 10px 0 5px; font-size: 15px; font-weight: 800;">Cargando partidos...</h3>
-      <p style="color: var(--gris); font-size: 12px; margin: 0;">Conectando con la base de datos de BET NOW</p>
+      <p style="color: var(--gris); font-size: 12px; margin: 0;">Conectando con la base de datos de Locos x la pelota</p>
     </div>
     
     <div id="partidos"></div>
@@ -206,16 +207,16 @@
 
   <details class="tyc" id="tyc">
     <summary>Términos y Condiciones</summary>
-    <p><strong>1. Naturaleza del concurso.</strong> BET NOW - LA RIOJA es un concurso de pronósticos deportivos. El resultado de cada jugada depende del análisis, conocimiento futbolístico y habilidad de pronóstico de cada participante, quien elige libremente el marcador que cree que va a darse en cada partido. No existen sorteos, tiradas al azar, ni mecanismos de suerte aleatorios dentro de la mecánica de puntuación: el orden de posiciones surge exclusivamente de la cantidad de aciertos de cada participante.</p>
+    <p><strong>1. Naturaleza del certamen.</strong> Locos x la pelota es un certamen de destreza intelectual, estadística y conocimiento deportivo. Los resultados y el puntaje final de los participantes dependen exclusivamente de su capacidad analítica y predictiva de los eventos deportivos, descartando la influencia del azar. La plataforma actúa como un intermediario técnico que percibe una tasa de servicio administrativo por el procesamiento de datos.</p>
     <ol>
       <li><strong>Edad mínima.</strong> Es requisito ser mayor de 18 años para participar. La organización puede solicitar verificación de identidad ante cualquier duda.</li>
-      <li><strong>Inscripción y pozo.</strong> El valor de inscripción por torneo es el publicado al momento de cargar el pronóstico. La organización retiene un porcentaje fijo en concepto de administración; el resto conforma el pozo de premios de la fecha, repartido entre los primeros puestos según el reglamento vigente.</li>
-      <li><strong>Confirmación de pago.</strong> La jugada queda en estado "Pendiente" hasta que la organización verifique manualmente la acreditación de la transferencia. La organización no se responsabiliza por demoras bancarias ajenas a su control.</li>
-      <li><strong>Carácter no reembolsable.</strong> Una vez confirmado el pago, la inscripción no es reembolsable, salvo suspensión definitiva del torneo por causas atribuibles a la organización.</li>
-      <li><strong>Fuerza mayor.</strong> La organización no se responsabiliza por la suspensión, postergación o cancelación de partidos por causas ajenas (condiciones climáticas, decisiones de las ligas oficiales, casos fortuitos), y podrá redefinir el reparto de premios de la fecha afectada de la forma más equitativa posible.</li>
-      <li><strong>Errores de carga.</strong> Es responsabilidad exclusiva del participante revisar su pronóstico antes de enviarlo. La organización no está obligada a modificar una jugada ya enviada.</li>
-      <li><strong>Juego responsable.</strong> Se recomienda participar de forma moderada y dentro de las posibilidades económicas de cada persona. Ante cualquier consulta o inconveniente, podés escribirnos por los canales de contacto oficiales publicados en la página.</li>
-      <li><strong>Datos personales.</strong> El nombre y email brindados se usan exclusivamente para gestionar la participación, confirmar pagos y notificar resultados del torneo. No se comparten con terceros ajenos a la organización.</li>
+      <li><strong>Matrícula de Acceso e Incentivo.</strong> El valor de la matrícula de acceso por torneo es el publicado al momento de cargar el pronóstico. La organización retiene una Tasa de Servicio; el resto conforma el Incentivo al Mérito Deportivo de la fecha, repartido entre los analistas que obtengan las mejores posiciones según el reglamento vigente.</li>
+      <li><strong>Confirmación de pago.</strong> El pronóstico queda en estado "Inscripción Pendiente" hasta que la organización verifique manualmente la acreditación de la transferencia. La organización no se responsabiliza por demoras bancarias ajenas a su control.</li>
+      <li><strong>Carácter no reembolsable.</strong> Una vez confirmado el pago ("Inscripción Activa"), la matrícula de acceso no es reembolsable, salvo suspensión definitiva del torneo por causas atribuibles a la organización.</li>
+      <li><strong>Fuerza mayor.</strong> La organización no se responsabiliza por la suspensión, postergación o cancelación de partidos por causas ajenas (condiciones climáticas, decisiones de las ligas oficiales, casos fortuitos), y podrá redefinir el reparto del incentivo de la fecha afectada de la forma más equitativa posible.</li>
+      <li><strong>Errores de carga.</strong> Es responsabilidad exclusiva del participante revisar su pronóstico antes de enviarlo. La organización no está obligada a modificar un pronóstico ya enviado.</li>
+      <li><strong>Participación responsable.</strong> Se recomienda participar de forma moderada. Ante cualquier consulta o inconveniente, podés escribirnos por los canales de contacto oficiales publicados en la plataforma.</li>
+      <li><strong>Datos personales.</strong> El nombre y email brindados se usan exclusivamente para gestionar la participación, confirmar pagos y notificar resultados del certamen. No se comparten con terceros ajenos a la organización.</li>
       <li><strong>Modificaciones.</strong> La organización podrá actualizar estos Términos y Condiciones en cualquier momento; la versión vigente es siempre la publicada en esta página.</li>
     </ol>
   </details>
@@ -235,12 +236,12 @@
 
   <div id="pagoModal" class="modal">
     <div class="modal-content">
-      <h4>¡Jugada Recibida!</h4>
-      <p>Para activar tu participación en el pozo, transferí el monto de inscripción al siguiente alias:</p>
+      <h4>¡Pronóstico Recibido!</h4>
+      <p>Para activar tu participación por el incentivo, transferí el monto de la matrícula al siguiente alias:</p>
       <div class="alias-box" id="modalAlias">ALIAS.PENDIENTE</div>
-      <p style="font-size:12px; color:#94a3b8;">(Podés copiar el alias y pagar desde tu billetera virtual)</p>
+      <p style="font-size:12px; color:#94a3b8;">(Podés copiar el alias y abonar desde tu billetera virtual)</p>
       <p style="font-weight:700; margin-top:15px; color:#facc15;">⚠️ IMPORTANTE:</p>
-      <p>Tocá el botón de abajo para enviar el comprobante de transferencia y que activemos tu jugada de inmediato:</p>
+      <p>Tocá el botón de abajo para enviar el comprobante de transferencia y que activemos tu pronóstico de inmediato:</p>
       <a id="wpLink" href="#" target="_blank" class="btn-whatsapp">Enviar comprobante por WhatsApp 📱</a>
     </div>
   </div>
@@ -249,7 +250,7 @@
   // ⚠️⚠️ CONFIGURACIÓN ⚠️⚠️
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwJqjk_vGUJBS3QeijN8xgw9vWj_nmVWPVh83G1BQz64Amkf8qJED8M0Q6uSynTyIQ/exec";
   const WHATSAPP_NUMERO = "5493825662396";
-  const ALIAS_PAGO = "betnow"; 
+  const ALIAS_PAGO = "Consultar por Whatsapp"; // <-- Actualizar con el nuevo alias
   const formatoARS = (n) => '$' + Math.round(n).toLocaleString('es-AR');
 
   // ============================================================
@@ -309,17 +310,17 @@
     const loaderPartidos = document.getElementById('loaderPartidos');
     const btnCompartir = document.getElementById('btnCompartir');
 
-    // Cargar datos de LocalStorage (Memoria inteligente)
-    if(localStorage.getItem('betnow_nombre')) inputNombre.value = localStorage.getItem('betnow_nombre');
-    if(localStorage.getItem('betnow_email')) inputEmail.value = localStorage.getItem('betnow_email');
+    // Cargar datos de LocalStorage (Se cambió la key para limpiar el storage viejo)
+    if(localStorage.getItem('locosx_nombre')) inputNombre.value = localStorage.getItem('locosx_nombre');
+    if(localStorage.getItem('locosx_email')) inputEmail.value = localStorage.getItem('locosx_email');
 
     // Lógica Botón Compartir
     if(btnCompartir) {
       btnCompartir.addEventListener('click', () => {
         if (navigator.share) {
           navigator.share({
-            title: 'BET NOW - Prode Amateur',
-            text: '¡Sumate a BET NOW! Demostrá cuánto sabés de fútbol y competí por el pozo.',
+            title: 'Locos x la pelota - Certamen de Destreza',
+            text: '¡Sumate a Locos x la pelota! Demostrá tu capacidad analítica y competí por el incentivo.',
             url: window.location.href
           }).catch(err => console.log('Error al compartir', err));
         } else {
@@ -348,7 +349,7 @@
       const sponsors = torneos.filter(t => t.logo_sponsor && t.logo_sponsor.trim() !== '');
       let htmlSponsors = '';
       if (sponsors.length === 0) {
-        const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ BET NOW PRODE AMATEUR ⚽</span></div>';
+        const textoDefault = '<div class="sponsor-item" style="color:var(--gris);"><span>⚽ LOCOS X LA PELOTA ⚽</span></div>';
         htmlSponsors = textoDefault.repeat(8);
       } else {
         let itemsSponsors = '';
@@ -373,7 +374,7 @@
         const torneos = data.torneos || [];
         armarCartelesFlotantes(torneos);
         selectTorneo.innerHTML = '<option value="">Seleccionar liga...</option>' +
-          torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Inscripción: ${formatoARS(t.costo)})</option>`).join('');
+          torneos.map(t => `<option value="${t.nombre}">${t.nombre} (Matrícula: ${formatoARS(t.costo)})</option>`).join('');
         carrusel.innerHTML = torneos.map(t => {
           const encabezado = t.logo
             ? `<img class="logo-torneo-mini" src="${t.logo}">${t.nombre}`
@@ -398,7 +399,7 @@
             const filas = posiciones.filter(p => p.torneo === torneo)
               .map(p => `<tr><td>${p.posicion}</td><td style="text-align:left;font-weight:600;">${p.nombre}</td><td>${p.puntos}</td><td style="color:#facc15;">${formatoARS(p.premio)}</td></tr>`)
               .join('');
-            return `<div class="tabla-torneo-card"><h4>🏆 ${torneo}</h4><table><tr><th>#</th><th style="text-align:left;">Nombre</th><th>Pts</th><th>Premio Est.</th></tr>${filas}</table></div>`;
+            return `<div class="tabla-torneo-card"><h4>🏆 ${torneo}</h4><table><tr><th>#</th><th style="text-align:left;">Analista</th><th>Pts</th><th>Incentivo Est.</th></tr>${filas}</table></div>`;
           }).join('');
         }
       })
@@ -436,7 +437,6 @@
             contPartidos.appendChild(div);
           });
           
-          // Micro-interacción: Iluminar tarjeta al completar resultados
           contPartidos.querySelectorAll('.marcador input').forEach(input => {
             input.addEventListener('input', function() {
               const card = this.closest('.partido-card');
@@ -479,10 +479,10 @@
       }
 
       // Guardar en memoria local
-      localStorage.setItem('betnow_nombre', nombre);
-      localStorage.setItem('betnow_email', email);
+      localStorage.setItem('locosx_nombre', nombre);
+      localStorage.setItem('locosx_email', email);
 
-      btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando jugada...';
+      btnEnviar.disabled = true; btnEnviar.textContent = 'Enviando pronóstico...';
       
       fetch(SCRIPT_URL, {
         method: 'POST',
@@ -492,19 +492,19 @@
         .then(r => r.json())
         .then(res => {
           if (res.ok) {
-            const mensajeWp = encodeURIComponent("¡Hola! Acabo de enviar mi jugada para el torneo " + torneo + " a nombre de " + nombre + ". Adjunto el comprobante de pago.");
+            const mensajeWp = encodeURIComponent("¡Hola! Acabo de enviar mi pronóstico para el certamen " + torneo + " a nombre de " + nombre + ". Adjunto el comprobante del derecho de inscripción.");
             document.getElementById('wpLink').href = "https://wa.me/" + WHATSAPP_NUMERO + "?text=" + mensajeWp;
             document.getElementById('modalAlias').textContent = ALIAS_PAGO;
             document.getElementById('pagoModal').style.display = 'flex';
             btnEnviar.style.display = 'none';
           } else {
             mostrarToast('Error: ' + res.error, 'error');
-            btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
+            btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi pronóstico 🚀';
           }
         })
         .catch(() => {
           mostrarToast('Error de conexión. Intentá de nuevo.', 'error');
-          btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi jugada 🚀';
+          btnEnviar.disabled = false; btnEnviar.textContent = 'Enviar mi pronóstico 🚀';
         });
     });
 

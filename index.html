@@ -67,14 +67,15 @@
     0%, 100% { box-shadow: 0 0 12px var(--oro), 0 0 24px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
     50% { box-shadow: 0 0 20px var(--oro), 0 0 40px var(--oro-glow), 0 4px 20px rgba(0,0,0,0.5); }
   }
-/* NUEVO BOTÓN CÓMO PARTICIPAR NEÓN VERDE */
+
+  /* BOTÓN CÓMO PARTICIPAR NEÓN VERDE (MÁS CHICO) */
   .btn-como-jugar {
     display: flex; align-items: center; justify-content: center;
-    width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 12px;
+    width: 100%; padding: 14px; margin-bottom: 20px; border-radius: 12px;
     background: transparent; border: 2px solid #22c55e; color: #22c55e;
-    font-weight: 800; font-size: 18px; text-transform: uppercase; letter-spacing: 1.5px;
+    font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
     cursor: pointer;
-    box-shadow: 0 0 10px #22c55e, 0 0 20px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 8px #22c55e, 0 0 16px rgba(34, 197, 94, 0.2);
     animation: pulso-neon-verde 1.5s ease-in-out infinite;
     transition: background 0.2s, transform 0.2s;
   }
@@ -83,9 +84,10 @@
   }
   
   @keyframes pulso-neon-verde {
-    0%, 100% { box-shadow: 0 0 10px #22c55e, 0 0 20px rgba(34, 197, 94, 0.3); transform: scale(1); }
-    50% { box-shadow: 0 0 18px #22c55e, 0 0 35px rgba(34, 197, 94, 0.6); transform: scale(1.02); }
+    0%, 100% { box-shadow: 0 0 8px #22c55e, 0 0 16px rgba(34, 197, 94, 0.2); transform: scale(1); }
+    50% { box-shadow: 0 0 14px #22c55e, 0 0 25px rgba(34, 197, 94, 0.5); transform: scale(1.02); }
   }
+
   .btn-share {
     display: flex; align-items: center; justify-content: center; gap: 8px;
     width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 12px;
@@ -173,10 +175,20 @@
   <div class="pozos-titulo">💰 🏆 INCENTIVOS ESTIMADOS — DESLIZÁ Y SELECCIONÁ TU TORNEO</div>
   <div class="pozos-carrusel" id="carrusel">Cargando...</div>
 
- <!-- PEGAR ESTO -->
-<button id="btnComoJugar" class="btn-como-jugar">
-  ¿Cómo participar?
-</button>
+  <!-- CONTENEDOR RESTAURADO: Necesario para que todo tenga márgenes -->
+  <div class="form-cont">
+    <h2>⚽ Locos x la pelota - Certamen de Destreza</h2>
+    
+    <button id="btnCompartir" class="btn-share">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+      Invitar a un amigo a participar
+    </button>
+
+    <!-- EL BOTÓN CON SU NUEVO TAMAÑO -->
+    <button id="btnComoJugar" class="btn-como-jugar">
+      ¿Cómo participar?
+    </button>
+
     <label>Nombre y Apellido</label>
     <input type="text" id="nombre" placeholder="Escribí tu nombre completo">
     <label>Email de contacto</label>
@@ -213,7 +225,6 @@
     </ol>
   </details>
 
-  <!-- NUEVA SECCIÓN DE RESULTADOS OFICIALES (SE MUESTRA SOLO SI HAY PARTIDOS FINALIZADOS) -->
   <div class="posiciones-seccion" id="seccion-resultados" style="display:none; padding-bottom: 10px; margin-top: 30px;">
     <h3>⚽ RESULTADOS OFICIALES</h3>
     <p style="text-align:center; font-size:12px; color:var(--gris); margin-top:-10px; margin-bottom:20px;">
@@ -233,6 +244,7 @@
 
   <div id="toast" class="toast"></div>
 
+  <!-- ZONA DE MODALES -->
   <div id="pagoModal" class="modal">
     <div class="modal-content">
       <h4>¡Pronóstico Recibido!</h4>
@@ -242,6 +254,21 @@
       <p style="font-weight:700; margin-top:15px; color:#facc15;">⚠️ IMPORTANTE:</p>
       <p>Tocá el botón de abajo para enviar el comprobante de transferencia y que activemos tu pronóstico de inmediato:</p>
       <a id="wpLink" href="#" target="_blank" class="btn-whatsapp">Enviar comprobante por WhatsApp 📱</a>
+    </div>
+  </div>
+
+  <div id="comoJugarModal" class="modal">
+    <div class="modal-content" style="text-align: left;">
+      <h4 style="color: #22c55e;">¿CÓMO PARTICIPAR?</h4>
+      <ol style="color: #fff; font-size: 14px; line-height: 1.8; padding-left: 20px;">
+        <li>Elegí tu <strong>torneo</strong> favorito.</li>
+        <li>Completá tus <strong>datos personales</strong>.</li>
+        <li>Completá el pronóstico de <strong>todos los partidos</strong>.</li>
+        <li>Tocá el botón <strong>"Enviar mi pronóstico"</strong>.</li>
+        <li>Transferí el monto de la matrícula al alias y enviá tu comprobante por el <strong>WhatsApp</strong> que aparecerá al finalizar.</li>
+      </ol>
+      <p style="font-size: 13px; color: var(--oro); margin-top: 15px;">Una vez que verifiquemos tu pago, ¡aparecerás automáticamente en la <strong>tabla de posiciones!</strong></p>
+      <button onclick="document.getElementById('comoJugarModal').style.display='none'" class="btn-whatsapp" style="background:#22c55e; color:#fff;">¡ENTENDIDO!</button>
     </div>
   </div>
 
@@ -318,19 +345,20 @@
         }
       });
     }
-const btnComoJugar = document.getElementById('btnComoJugar');
-const modalComoJugar = document.getElementById('comoJugarModal');
+    
+    const btnComoJugar = document.getElementById('btnComoJugar');
+    const modalComoJugar = document.getElementById('comoJugarModal');
 
-btnComoJugar.addEventListener('click', () => {
-  modalComoJugar.style.display = 'flex';
-});
+    btnComoJugar.addEventListener('click', () => {
+      modalComoJugar.style.display = 'flex';
+    });
 
-// Cerrar modal si hacen click afuera
-window.addEventListener('click', (event) => {
-  if (event.target == modalComoJugar) {
-    modalComoJugar.style.display = 'none';
-  }
-});
+    // Cerrar modal si hacen click afuera
+    window.addEventListener('click', (event) => {
+      if (event.target == modalComoJugar) {
+        modalComoJugar.style.display = 'none';
+      }
+    });
     
     function seleccionarTorneo(nombre) {
       selectTorneo.value = nombre;
@@ -392,14 +420,13 @@ window.addEventListener('click', (event) => {
         });
         activarFocoCarrusel();
         
-        // --- NUEVO: RESULTADOS OFICIALES (PARTIDOS FINALIZADOS) ---
         const resDiv = document.getElementById('resultados-oficiales');
         const secRes = document.getElementById('seccion-resultados');
         const partidosAll = data.partidos || [];
         const finalizados = partidosAll.filter(p => p.estado.includes('FINALIZADO') || p.estado.includes('TERMINADO'));
         
         if (finalizados.length > 0) {
-          secRes.style.display = 'block'; // Lo mostramos solo si hay algo que ver
+          secRes.style.display = 'block'; 
           const torneosFix = [...new Set(finalizados.map(p => p.torneo))];
           resDiv.innerHTML = torneosFix.map(torneo => {
             const filas = finalizados.filter(p => p.torneo === torneo)
@@ -416,7 +443,6 @@ window.addEventListener('click', (event) => {
             return `<div class="tabla-torneo-card" style="margin-bottom:12px;"><h4>✅ ${torneo}</h4><table style="border:none;">${filas}</table></div>`;
           }).join('');
         }
-        // --- FIN RESULTADOS OFICIALES ---
 
         const posiciones = data.posiciones || [];
         const torneosUnicos = [...new Set(posiciones.map(p => p.torneo))];
@@ -547,20 +573,6 @@ window.addEventListener('click', (event) => {
       actualizarFoco();
     }
   } 
-  </script>
-  <div id="comoJugarModal" class="modal">
-  <div class="modal-content" style="text-align: left;">
-    <h4>¿Cómo jugar?</h4>
-    <ol style="color: #fff; font-size: 14px; line-height: 1.8; padding-left: 20px;">
-      <li>Elegí tu <strong>torneo</strong> favorito.</li>
-      <li>Completá tus <strong>datos personales</strong>.</li>
-      <li>Completá el pronóstico de <strong>todos los partidos</strong>.</li>
-      <li>Tocá el botón <strong>"Enviar mi pronóstico"</strong>.</li>
-      <li>Transferí el monto de la matrícula al alias y enviá tu comprobante por el <strong>WhatsApp</strong> que aparecerá al finalizar.</li>
-    </ol>
-    <p style="font-size: 13px; color: var(--oro); margin-top: 15px;">Una vez que verifiquemos tu pago, ¡aparecerás automáticamente en la <strong>tabla de posiciones!</strong></p>
-    <button onclick="document.getElementById('comoJugarModal').style.display='none'" class="btn-whatsapp" style="background:var(--oro); color:#000;">¡Entendido!</button>
-  </div>
-</div>
+</script>
 </body>
 </html>

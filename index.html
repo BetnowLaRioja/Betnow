@@ -162,7 +162,9 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
       Invitar a un amigo a participar
     </button>
-
+<button id="btnComoJugar" class="btn-share" style="border: 1px solid var(--gris); color: var(--gris); margin-bottom: 20px;">
+  ℹ️ ¿Cómo participar?
+</button>
     <label>Nombre y Apellido</label>
     <input type="text" id="nombre" placeholder="Escribí tu nombre completo">
     <label>Email de contacto</label>
@@ -304,7 +306,20 @@
         }
       });
     }
+const btnComoJugar = document.getElementById('btnComoJugar');
+const modalComoJugar = document.getElementById('comoJugarModal');
 
+btnComoJugar.addEventListener('click', () => {
+  modalComoJugar.style.display = 'flex';
+});
+
+// Cerrar modal si hacen click afuera
+window.addEventListener('click', (event) => {
+  if (event.target == modalComoJugar) {
+    modalComoJugar.style.display = 'none';
+  }
+});
+    
     function seleccionarTorneo(nombre) {
       selectTorneo.value = nombre;
       selectTorneo.dispatchEvent(new Event('change'));
@@ -520,6 +535,20 @@
       actualizarFoco();
     }
   } 
+  <div id="comoJugarModal" class="modal">
+  <div class="modal-content" style="text-align: left;">
+    <h4>¿Cómo jugar?</h4>
+    <ol style="color: #fff; font-size: 14px; line-height: 1.8; padding-left: 20px;">
+      <li>Elegí tu <strong>torneo</strong> favorito.</li>
+      <li>Completá tus <strong>datos personales</strong>.</li>
+      <li>Completá el pronóstico de <strong>todos los partidos</strong>.</li>
+      <li>Tocá el botón <strong>"Enviar mi pronóstico"</strong>.</li>
+      <li>Transferí el monto de la matrícula al alias y enviá tu comprobante por el <strong>WhatsApp</strong> que aparecerá al finalizar.</li>
+    </ol>
+    <p style="font-size: 13px; color: var(--oro); margin-top: 15px;">Una vez que verifiquemos tu pago, ¡aparecerás automáticamente en la <strong>tabla de posiciones!</strong></p>
+    <button onclick="document.getElementById('comoJugarModal').style.display='none'" class="btn-whatsapp" style="background:var(--oro); color:#000;">¡Entendido!</button>
+  </div>
+</div>
 </script>
 </body>
 </html>
